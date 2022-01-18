@@ -2,7 +2,6 @@ console.log("Página Iniciada");
 
 //VARIABLES
 let cantEdades; let sumaEdades = 0; let nuevaEdad; let promedioEdades; let cantUsuarios = 0;
-console.log("Variables definidas.");
 
 //CLASES
 class Persona {
