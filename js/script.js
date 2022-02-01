@@ -39,8 +39,8 @@ function dividir(dato1, dato2, resultado) {
     return resultado;
 }
 
+let contMain = document.getElementById("contMain");
 let texto = document.createElement("p"); //Creo un tag <p> en el documento para agregarle el texto con la información del usuario.
-//Hola Luis! Cómo puedo hacer que este elemento <p> se agregue en un tag específico, en vez de al final del <body>?
 document.getElementById("btnVerUsuario").addEventListener("click", function () {
     let usuarioBuscado = prompt("Ingrese el DNI del usuario cuya información desee ver: "); //Pido DNI para ubicar al objeto que se debe mostrar
     console.log("Se busca al usuario del DNI " + usuarioBuscado);
@@ -48,8 +48,8 @@ document.getElementById("btnVerUsuario").addEventListener("click", function () {
     console.log(duplicarUsuario);
     console.log("Creado el nuevo objeto que se usará para mostrar la información del usuario.");
 
-    texto.innerHTML = duplicarUsuario; //Edito el <p> para que muestre el objeto duplicado
-    document.body.appendChild(texto); //Aplico los cambios en el HTML
+    texto.innerHTML = texto.innerHTML + "<br>" + duplicarUsuario; //Edito el <p> para que muestre el objeto duplicado
+    contMain.appendChild(texto); //Aplico los cambios en el HTML
     console.log("Agregado al documento (O editado en el mismo) el elemento <p> para mostrar la información");
 
     let renombrarBoton = document.getElementById("btnVerUsuario"); //Ésto sólo va a hacer un cambio notable al primer uso de este botón, cambio el texto del botón para que invite al usuario a volver a usar el botón con un usuario distinto.
@@ -60,20 +60,60 @@ document.getElementById("btnReiniciar").addEventListener("click", function () {
     window.location.reload();
 });
 
-document.getElementById("btnAgregarUsuario").addEventListener("click", function () {
-    cantUsuarios++; //Registro este usuario en la variable que cuenta la cant de usuarios ingresados.
+let formIngresoUsuario = document.getElementById("formIngresoUsuario");
+function cargarUsuario(){
+    //cantUsuarios++; //Registro este usuario en la variable que cuenta la cant de usuarios ingresados.
+    let nombreIngresado; let apellidoIngresado; let edadIngresada; let dniIngresado;
+    
+    nombreIngresado = document.getElementById("inputNombreUsuario").value;
+    apellidoIngresado = document.getElementById("inputApellidoUsuario").value;
+    edadIngresada = document.getElementById("inputEdadUsuario").value;
+    dniIngresado = document.getElementById("inputDNIUsuario").value;
+    
     arrayUsuarios.push( //pusheo un nuevo objeto "Persona" para ser agregado a arrayUsuarios
         new Persona(
             cantUsuarios, //defino al idUsuario (primer dato de la clase) utilizando la cantidad de usuarios, si este es el primero su id será 1.
-            prompt("Ingrese Su Nombre: "), //pido dato "nombre"
-            prompt("Ingrese su Apellido: "), //pido dato "apellido"
-            prompt("Ingrese su Edad, debe ser sólo el número: "), //pido dato "edad"
-            prompt("Ingrese su DNI, debe ser sólo el número: ") //pido dato "DNI"
+            nombreIngresado,
+            apellidoIngresado,
+            edadIngresada,
+            dniIngresado
         )
     )
-
+    formIngresoUsuario.reset();
     console.log(arrayUsuarios.find(usuario => usuario.idUsuario === cantUsuarios));
+}
+
+// EVENT LISTENERS PARA ENVIAR EL FORMULARIO CON TECLA ENTER
+document.getElementById("inputNombreUsuario").addEventListener("keyup", function(evento){
+    if (evento.keyCode === 13){
+        event.preventDefault();
+        document.getElementById("btnAgregarUsuario").click();
+    }
 });
+
+document.getElementById("inputApellidoUsuario").addEventListener("keyup", function(evento){
+    if (evento.keyCode === 13){
+        event.preventDefault();
+        document.getElementById("btnAgregarUsuario").click();
+    }
+});
+
+document.getElementById("inputEdadUsuario").addEventListener("keyup", function(evento){
+    if (evento.keyCode === 13){
+        event.preventDefault();
+        document.getElementById("btnAgregarUsuario").click();
+    }
+});
+
+document.getElementById("inputDNIUsuario").addEventListener("keyup", function(evento){
+    if (evento.keyCode === 13){
+        event.preventDefault();
+        document.getElementById("btnAgregarUsuario").click();
+    }
+});
+// FIN DE EVENT LISTENERS PARA ENVIAR EL FORMULARIO CON TECLA ENTER
+
+document.getElementById("btnAgregarUsuario").addEventListener("click", cargarUsuario);
 
 function mostrarPromedio(resultadoDIV) {
     resultadoDIV = Math.round(resultadoDIV)
