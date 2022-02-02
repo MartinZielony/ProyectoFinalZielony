@@ -12,13 +12,11 @@
     <title>Proyecto Final - Martín Zielony</title>
 </head>
 <body>
-    <header>
-        <h1>Proyecto Final - Martín Zielony</h1>
-        <button id="btnPromedioEdades" type="button" class="btn btn-dark">Sacar Promedio de Edades</button>
-        <button id="btnAgregarUsuario" type="button" class="btn btn-dark">Agregar Usuario</button>
+    <nav>
+        <h3>Proyecto Final - Martín Zielony</h3>
         <button id="btnVerUsuario" type="button" class="btn btn-dark">Ver Usuario</button>
-        <button id="btnReiniciar" type="button" class="btn btn-dark">Reiniciar</button>
-    </header>
+        <button id="btnComenzarJuego" type="button" class="btn btn-success">Comenzar Juego</button>
+    </nav>
     <hr>
 
     <main id="contMain">
@@ -38,16 +36,17 @@
                 <input type="number" class="form-control" id="inputEdadUsuario" placeholder="Ingrese su edad en Años">
             </div>
 
-            <div class="form-group" id="formGroupDNI">
-                <label>DNI</label>
-                <input type="number" class="form-control" id="inputDNIUsuario" placeholder="Ingrese su DNI">
+            <div class="form-group" id="formGroupContrasena">
+                <label>Contraseña</label>
+                <input type="password" class="form-control" id="inputContrasenaUsuario" placeholder="Ingrese su Contraseña">
             </div>
             <br>
+            <button id="btnAgregarUsuario" type="button" class="btn btn-dark">Agregar Usuario</button>
         </form>
     </main>
-    <hr>
-
+    
     <footer>
+        <hr>
         <h3>Curso de JScript - Comisión 24385</h3>
     </footer>
     <script src="js/script.js"></script>

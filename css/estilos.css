@@ -1,6 +1,19 @@
 html {
-  font-family: 'Roboto', sans-serif;
-  text-align: center; }
+  font-family: 'Roboto', sans-serif; }
+
+body nav {
+  padding-top: 1vw;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly; }
 
 body p {
-  font-weight: bold; }
+  font-weight: bold;
+  text-align: center; }
+
+body form {
+  width: 75%;
+  margin: 0 auto; }
+
+body footer {
+  text-align: center; }

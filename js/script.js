@@ -5,12 +5,13 @@ let cantEdades; let sumaEdades = 0; let nuevaEdad; let promedioEdades; let cantU
 
 //CLASES
 class Persona {
-    constructor(idUsuario, nombre, apellido, edad, DNI) {
+    constructor(idUsuario, nombre, apellido, edad, contrasena, puntajeMAX) {
         this.idUsuario = idUsuario;
         this.nombre = nombre.toUpperCase();
         this.apellido = apellido.toUpperCase();
         this.edad = edad;
-        this.DNI = DNI;
+        this.contrasena = contrasena;
+        this.puntajeMAX = puntajeMAX;
     }
 
     nombreCompleto() {
@@ -42,9 +43,11 @@ function dividir(dato1, dato2, resultado) {
 let contMain = document.getElementById("contMain");
 let texto = document.createElement("p"); //Creo un tag <p> en el documento para agregarle el texto con la información del usuario.
 document.getElementById("btnVerUsuario").addEventListener("click", function () {
-    let usuarioBuscado = prompt("Ingrese el DNI del usuario cuya información desee ver: "); //Pido DNI para ubicar al objeto que se debe mostrar
-    console.log("Se busca al usuario del DNI " + usuarioBuscado);
-    let duplicarUsuario = JSON.stringify(arrayUsuarios.find(usuario => usuario.DNI == usuarioBuscado)) //Creo un nuevo objeto a partir del objeto encontrado, lo paso a string.
+    let usuarioBuscado = prompt("Ingrese la Contraseña del usuario cuya información desee ver: "); //Pido contrasena para ubicar al objeto que se debe mostrar
+    console.log("Se busca al usuario de la contraseña " + usuarioBuscado);
+    let duplicarUsuario;
+    let buscarArray =  JSON.parse(localStorage.getItem('arrayUsuarios'));
+    duplicarUsuario = JSON.stringify(buscarArray.find(usuario => usuario.contrasena == usuarioBuscado));
     console.log(duplicarUsuario);
     console.log("Creado el nuevo objeto que se usará para mostrar la información del usuario.");
 
@@ -56,19 +59,16 @@ document.getElementById("btnVerUsuario").addEventListener("click", function () {
     renombrarBoton.innerHTML = "Ver Otro Usuario"; //Aplico el cambio
 });
 
-document.getElementById("btnReiniciar").addEventListener("click", function () {
-    window.location.reload();
-});
-
 let formIngresoUsuario = document.getElementById("formIngresoUsuario");
+
 function cargarUsuario(){
-    //cantUsuarios++; //Registro este usuario en la variable que cuenta la cant de usuarios ingresados.
-    let nombreIngresado; let apellidoIngresado; let edadIngresada; let dniIngresado;
+    cantUsuarios++; //Registro este usuario en la variable que cuenta la cant de usuarios ingresados.
+    let nombreIngresado; let apellidoIngresado; let edadIngresada; let contrasenaIngresada;
     
     nombreIngresado = document.getElementById("inputNombreUsuario").value;
     apellidoIngresado = document.getElementById("inputApellidoUsuario").value;
     edadIngresada = document.getElementById("inputEdadUsuario").value;
-    dniIngresado = document.getElementById("inputDNIUsuario").value;
+    contrasenaIngresada = document.getElementById("inputContrasenaUsuario").value;
     
     arrayUsuarios.push( //pusheo un nuevo objeto "Persona" para ser agregado a arrayUsuarios
         new Persona(
@@ -76,10 +76,12 @@ function cargarUsuario(){
             nombreIngresado,
             apellidoIngresado,
             edadIngresada,
-            dniIngresado
+            contrasenaIngresada,
+            0
         )
     )
     formIngresoUsuario.reset();
+    localStorage.setItem('arrayUsuarios', JSON.stringify(arrayUsuarios));
     console.log(arrayUsuarios.find(usuario => usuario.idUsuario === cantUsuarios));
 }
 
@@ -105,7 +107,7 @@ document.getElementById("inputEdadUsuario").addEventListener("keyup", function(e
     }
 });
 
-document.getElementById("inputDNIUsuario").addEventListener("keyup", function(evento){
+document.getElementById("inputContrasenaUsuario").addEventListener("keyup", function(evento){
     if (evento.keyCode === 13){
         event.preventDefault();
         document.getElementById("btnAgregarUsuario").click();
@@ -115,18 +117,8 @@ document.getElementById("inputDNIUsuario").addEventListener("keyup", function(ev
 
 document.getElementById("btnAgregarUsuario").addEventListener("click", cargarUsuario);
 
-function mostrarPromedio(resultadoDIV) {
-    resultadoDIV = Math.round(resultadoDIV)
-    alert("El promedio de las " + cantEdades + " edades ingresadas es: " + resultadoDIV);
+function comenzarJuego(){
+    window.location.href = "pages/escenaJuegoComenzado.html";
 }
 
-document.getElementById("btnPromedioEdades").addEventListener("click", function () {
-    cantEdades = pedirNumero("De cuántas personas se desea sacar el promedio de edad?");
-    console.log("Se sacará el promedio de " + cantEdades + " edades.");
-    for (let index = 1; index <= cantEdades; index++) {
-        nuevaEdad = parseInt(prompt("Ingrese la edad de la persona nro " + index));
-        console.log(nuevaEdad + " Ingresado.")
-        sumarEdad(nuevaEdad);
-    }
-    mostrarPromedio(dividir(sumaEdades, cantEdades));
-});
+document.getElementById("btnComenzarJuego").addEventListener("click", comenzarJuego);
