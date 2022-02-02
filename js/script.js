@@ -42,8 +42,38 @@ function dividir(dato1, dato2, resultado) {
 
 let contMain = document.getElementById("contMain");
 let texto = document.createElement("p"); //Creo un tag <p> en el documento para agregarle el texto con la información del usuario.
+let promptBusqueda;
+let ingresoBusqueda;
+let buscarPorContrasena;
+
+promptBusqueda = document.createElement("label");
+promptBusqueda.innerHTML = "<br> Ingrese la contraseña del usuario cuya información desee ver: ";
+
+ingresoBusqueda = document.createElement("input");
+ingresoBusqueda.setAttribute("id", "ingresoBusqueda");
+ingresoBusqueda.setAttribute("type", "password");
+ingresoBusqueda.setAttribute("class", "form-control")
+ingresoBusqueda.setAttribute("placeholder", "Contraseña")
+
+buscarPorContrasena = document.createElement("button");
+buscarPorContrasena.setAttribute("id", "buscarPorContrasena");
+buscarPorContrasena.setAttribute("class", "d-none");
+buscarPorContrasena.innerHTML = "Buscar"
+contMain.appendChild(buscarPorContrasena);
+
+
 document.getElementById("btnVerUsuario").addEventListener("click", function () {
-    let usuarioBuscado = prompt("Ingrese la Contraseña del usuario cuya información desee ver: "); //Pido contrasena para ubicar al objeto que se debe mostrar
+    contMain.removeChild(buscarPorContrasena);
+    buscarPorContrasena.setAttribute("class", "btn btn-dark");
+    contMain.appendChild(promptBusqueda);
+    contMain.appendChild(ingresoBusqueda);
+    contMain.appendChild(buscarPorContrasena);
+    
+});
+
+document.getElementById("buscarPorContrasena").addEventListener("click", function(){
+    let usuarioBuscado = document.getElementById("ingresoBusqueda").value;
+    
     console.log("Se busca al usuario de la contraseña " + usuarioBuscado);
     let duplicarUsuario;
     let buscarArray =  JSON.parse(localStorage.getItem('arrayUsuarios'));

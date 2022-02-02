@@ -9,7 +9,7 @@ class Pregunta {
     }
 }
 
-sessionStorage.setItem("PuntajeActual", 0)
+sessionStorage.setItem("PuntajeActual", 0);
 
 let arrayPreguntas = [
     {
@@ -30,6 +30,8 @@ let arrayPreguntas = [
 ]
 
 let contQuiz = document.getElementById("contQuiz");
+let contPregunta = document.getElementById("contPregunta");
+let contOpciones = document.getElementById("contOpciones")
 let preguntaDOM = document.createElement("label");
 preguntaDOM.setAttribute("class", "fw-bold");
 
@@ -56,12 +58,13 @@ let preguntaActiva = arrayPreguntas[valorAleatorio];
     res3DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc2);
     res4DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc3);
 
-    contQuiz.appendChild(preguntaDOM);
-    contQuiz.appendChild(res1DOM);
-    contQuiz.appendChild(res2DOM);
-    contQuiz.appendChild(res3DOM);
-    contQuiz.appendChild(res4DOM);
+    contPregunta.appendChild(preguntaDOM);
+    contOpciones.appendChild(res1DOM);
+    contOpciones.appendChild(res2DOM);
+    contOpciones.appendChild(res3DOM);
+    contOpciones.appendChild(res4DOM);
 
 res1DOM.addEventListener("click", function(){
     res1DOM.setAttribute ("class", "btn btn-success")
+    sessionStorage.setItem("PuntajeActual", getItem("PuntajeActual")++);
 });
