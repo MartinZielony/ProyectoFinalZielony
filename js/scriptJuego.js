@@ -29,6 +29,8 @@ let arrayPreguntas = [
     }
 ]
 
+sessionStorage.setItem("puntajeActual", "int");
+
 let contQuiz = document.getElementById("contQuiz");
 let contPregunta = document.getElementById("contPregunta");
 let contOpciones = document.getElementById("contOpciones")
@@ -66,5 +68,6 @@ let preguntaActiva = arrayPreguntas[valorAleatorio];
 
 res1DOM.addEventListener("click", function(){
     res1DOM.setAttribute ("class", "btn btn-success")
-    sessionStorage.setItem("PuntajeActual", getItem("PuntajeActual")++);
+    puntajeActual = sessionStorage.getItem("puntajeActual")
+    sessionStorage.setItem("PuntajeActual", puntajeActual++);
 });
