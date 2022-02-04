@@ -115,30 +115,30 @@ function cargarUsuario() {
 }
 
 // EVENT LISTENERS PARA ENVIAR EL FORMULARIO CON TECLA ENTER
-document.getElementById("inputNombreUsuario").addEventListener("keyup", function (evento) {
-    if (evento.keyCode === 13) {
-        event.preventDefault();
+document.getElementById("inputNombreUsuario").addEventListener("keyup", function (e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
         document.getElementById("btnAgregarUsuario").click();
     }
 });
 
-document.getElementById("inputApellidoUsuario").addEventListener("keyup", function (evento) {
-    if (evento.keyCode === 13) {
-        event.preventDefault();
+document.getElementById("inputApellidoUsuario").addEventListener("keyup", function (e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
         document.getElementById("btnAgregarUsuario").click();
     }
 });
 
-document.getElementById("inputEdadUsuario").addEventListener("keyup", function (evento) {
-    if (evento.keyCode === 13) {
-        event.preventDefault();
+document.getElementById("inputEdadUsuario").addEventListener("keyup", function (e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
         document.getElementById("btnAgregarUsuario").click();
     }
 });
 
-document.getElementById("inputContrasenaUsuario").addEventListener("keyup", function (evento) {
-    if (evento.keyCode === 13) {
-        event.preventDefault();
+document.getElementById("inputContrasenaUsuario").addEventListener("keyup", function (e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
         document.getElementById("btnAgregarUsuario").click();
     }
 });

@@ -1,11 +1,9 @@
 class Pregunta {
-    constructor(idPregunta, pregunta, respuestaCorrecta, respuesta2, respuesta3, respuesta4){
+    constructor(idPregunta, pregunta, respuestaCorrecta, respuestasIncorrectas){
         idPregunta = idPregunta;
         pregunta = pregunta;
         respuestaCorrecta = respuestaCorrecta;
-        respuesta2 = respuestaInc1;
-        respuesta3 = respuestaInc2;
-        respuesta4 = respuestaInc3;
+        respuestasIncorrectas = [];
     }
 }
 
@@ -13,19 +11,34 @@ sessionStorage.setItem("PuntajeActual", 0);
 
 let arrayPreguntas = [
     {
-        idPregunta:1,pregunta:"¿Cómo se llama el creador de este proyecto?",respuestaCorrecta:"Martín Zielony",respuestaInc1:"Florencia Hendel",respuestaInc2:"Luis Laverde",respuestaInc3:"Dani Bootstrap García"
+        idPregunta:1,
+        pregunta:"¿Cómo se llama el creador de este proyecto?",
+        respuestaCorrecta:"Martín Zielony",respuestaInc1:"Florencia Hendel",
+        respuestasIncorrectas:["Florencia Hendel","Luis Laverde","Dani Bootstrap García"]
     },
     {
-        idPregunta:2,pregunta:"¿Qué se enseña en el curso en el que hice este proyecto?",respuestaCorrecta:"Javascript",respuestaInc1:"HTML/CSS",respuestaInc2:"ReactJs",respuestaInc3:"Desarrollo FrontEnd"
+        idPregunta:2,
+        pregunta:"¿Qué se enseña en el curso en el que hice este proyecto?",
+        respuestaCorrecta:"Javascript",
+        respuestasIncorrectas:["HTML/CSS","ReactJs","Desarrollo FrontEnd"]
     },
     {
-        idPregunta:3,pregunta:"¿En qué plataforma se dictan (idealmente) las clases?",respuestaCorrecta:"Zoom",respuestaInc1:"Google Meet",respuestaInc2:"Microsoft Teams",respuestaInc3:"Facebook"
+        idPregunta:3,
+        pregunta:"¿En qué plataforma se dictan (idealmente) las clases?",
+        respuestaCorrecta:"Zoom",
+        respuestasIncorrectas:["Google Meet","Microsoft Teams","Facebook"]
     },
     {
-        idPregunta:4,pregunta:"¿En qué rango horario tiene clases esta comisión 24385?",respuestaCorrecta:"20:30 a 22:30",respuestaInc1:"19:30 a 21:30",respuestaInc2:"10 a 12",respuestaInc3:"15:30 a 17:30"
+        idPregunta:4,
+        pregunta:"¿En qué rango horario tiene clases esta comisión 24385?",
+        respuestaCorrecta:"20:30 a 22:30",
+        respuestasIncorrectas:["19:30 a 21:30","10 a 12","15:30 a 17:30"]
     },
     {
-        idPregunta:5,pregunta:"¿Cómo se llama el tutor del creador de este proyecto?",respuestaCorrecta:"Luis Laverde",respuestaInc1:"Milton Salazar",respuestaInc2:"Martín Zielony",respuestaInc3:"Ezequiel Galardi"
+        idPregunta:5,
+        pregunta:"¿Cómo se llama el tutor del creador de este proyecto?",
+        respuestaCorrecta:"Luis Laverde",
+        respuestasIncorrectas:["Milton Salazar","Martín Zielony","Ezequiel Galardi"]
     }
 ]
 
@@ -34,40 +47,40 @@ sessionStorage.setItem("puntajeActual", "int");
 let contQuiz = document.getElementById("contQuiz");
 let contPregunta = document.getElementById("contPregunta");
 let contOpciones = document.getElementById("contOpciones")
+
 let preguntaDOM = document.createElement("label");
 preguntaDOM.setAttribute("class", "fw-bold");
 
-let res1DOM = document.createElement("button"); //respuesta correcta
-res1DOM.setAttribute("class", "btn btn-dark");
-
-let res2DOM = document.createElement("button");
-res2DOM.setAttribute("class", "btn btn-dark");
-let res3DOM = document.createElement("button");
-res3DOM.setAttribute("class", "btn btn-dark");
-let res4DOM = document.createElement("button");
-res4DOM.setAttribute("class", "btn btn-dark");
+let resADOM = document.createElement("button");
+resADOM.setAttribute("class", "btn btn-dark");
+let resBDOM = document.createElement("button");
+resBDOM.setAttribute("class", "btn btn-dark");
+let resCDOM = document.createElement("button");
+resCDOM.setAttribute("class", "btn btn-dark");
+let resDDOM = document.createElement("button");
+resDDOM.setAttribute("class", "btn btn-dark");
 
 function generarIntegerAleatorio(max) {
     return Math.floor(Math.random() * max);
 }
 
-let valorAleatorio = generarIntegerAleatorio(4); //4 Porque hay 5 lugares en el array, incluyendo el puesto 0.
-
-let preguntaActiva = arrayPreguntas[valorAleatorio];
+let preguntaAleatorio = generarIntegerAleatorio(4); //4 Porque hay 5 lugares en el array, incluyendo el puesto 0.
+let preguntaActiva = arrayPreguntas[preguntaAleatorio];
     preguntaDOM.innerHTML = JSON.stringify(preguntaActiva.pregunta);
-    res1DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaCorrecta);
-    res2DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc1);
-    res3DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc2);
-    res4DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc3);
+    
+    resADOM.innerHTML = JSON.stringify(preguntaActiva.respuestaCorrecta);
+    resBDOM.innerHTML = JSON.stringify(preguntaActiva.respuestasIncorrectas[0]);
+    resCDOM.innerHTML = JSON.stringify(preguntaActiva.respuestasIncorrectas[1]);
+    resDDOM.innerHTML = JSON.stringify(preguntaActiva.respuestasIncorrectas[2]);
 
-    contPregunta.appendChild(preguntaDOM);
-    contOpciones.appendChild(res1DOM);
-    contOpciones.appendChild(res2DOM);
-    contOpciones.appendChild(res3DOM);
-    contOpciones.appendChild(res4DOM);
+    contPregunta.appendChild(preguntaDOM)
+    contOpciones.appendChild(resADOM);
+    contOpciones.appendChild(resBDOM);
+    contOpciones.appendChild(resCDOM);
+    contOpciones.appendChild(resDDOM);
 
-res1DOM.addEventListener("click", function(){
-    res1DOM.setAttribute ("class", "btn btn-success")
-    puntajeActual = sessionStorage.getItem("puntajeActual")
-    sessionStorage.setItem("PuntajeActual", puntajeActual++);
+resADOM.addEventListener("click", function(){
+resADOM.setAttribute ("class", "btn btn-success")
+puntajeActual = sessionStorage.getItem("puntajeActual")
+sessionStorage.setItem("PuntajeActual", puntajeActual++);
 });
