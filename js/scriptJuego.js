@@ -37,6 +37,15 @@ let contOpciones = document.getElementById("contOpciones")
 let preguntaDOM = document.createElement("label");
 preguntaDOM.setAttribute("class", "fw-bold");
 
+let res1DOM = document.createElement("button"); //respuesta correcta
+res1DOM.setAttribute("class", "btn btn-dark");
+
+let res2DOM = document.createElement("button");
+res2DOM.setAttribute("class", "btn btn-dark");
+let res3DOM = document.createElement("button");
+res3DOM.setAttribute("class", "btn btn-dark");
+let res4DOM = document.createElement("button");
+res4DOM.setAttribute("class", "btn btn-dark");
 
 function generarIntegerAleatorio(max) {
     return Math.floor(Math.random() * max);
@@ -44,49 +53,21 @@ function generarIntegerAleatorio(max) {
 
 let valorAleatorio = generarIntegerAleatorio(4); //4 Porque hay 5 lugares en el array, incluyendo el puesto 0.
 
-let preguntaActiva = arrayPreguntas[valorAleatorio]; //se define la pregunta para mostrar a partir del valor aleatorio
-
-let resCorrectaDOM = document.createElement("button"); //respuesta correcta
-resCorrectaDOM.setAttribute("class", "btn btn-dark");
-
-let res1DOM = document.createElement("button");
-res1DOM.setAttribute("class", "btn btn-dark");
-let res2DOM = document.createElement("button");
-res2DOM.setAttribute("class", "btn btn-dark");
-let res3DOM = document.createElement("button");
-res3DOM.setAttribute("class", "btn btn-dark");
-
-preguntaDOM.innerHTML = JSON.stringify(preguntaActiva.pregunta);
-
-function mostrarQuiz(){
-    let ordenRespuestas = generarIntegerAleatorio(15); //habrán 16 posibles combinaciones para ordenar las respuestas.
-    switch (ordenRespuestas) { //este switch define el orden de las preguntas de acuerdo al valor de ordenRespuestas
-        case 0:
-            res1DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc1)
-            res2DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc2)
-            res3DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc3)
-            resCorrectaDOM = JSON.stringify(preguntaActiva.respuestaCorrecta)
-            break;
-    
-        default:
-            break;
-    }
-}
-
-
-    resCorrectaDOM.innerHTML = JSON.stringify(preguntaActiva.respuestaCorrecta);
-    res1DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc1);
-    res2DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc2);
-    res3DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc3);
+let preguntaActiva = arrayPreguntas[valorAleatorio];
+    preguntaDOM.innerHTML = JSON.stringify(preguntaActiva.pregunta);
+    res1DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaCorrecta);
+    res2DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc1);
+    res3DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc2);
+    res4DOM.innerHTML = JSON.stringify(preguntaActiva.respuestaInc3);
 
     contPregunta.appendChild(preguntaDOM);
-    contOpciones.appendChild(resCorrectaDOM);
     contOpciones.appendChild(res1DOM);
     contOpciones.appendChild(res2DOM);
     contOpciones.appendChild(res3DOM);
+    contOpciones.appendChild(res4DOM);
 
-resCorrectaDOM.addEventListener("click", function(){
-    resCorrectaDOM.setAttribute ("class", "btn btn-success")
+res1DOM.addEventListener("click", function(){
+    res1DOM.setAttribute ("class", "btn btn-success")
     puntajeActual = sessionStorage.getItem("puntajeActual")
     sessionStorage.setItem("PuntajeActual", puntajeActual++);
 });
