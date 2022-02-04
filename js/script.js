@@ -68,15 +68,14 @@ document.getElementById("btnVerUsuario").addEventListener("click", function () {
     contMain.appendChild(promptBusqueda);
     contMain.appendChild(ingresoBusqueda);
     contMain.appendChild(buscarPorContrasena);
-    
 });
 
-document.getElementById("buscarPorContrasena").addEventListener("click", function(){
+document.getElementById("buscarPorContrasena").addEventListener("click", function () {
     let usuarioBuscado = document.getElementById("ingresoBusqueda").value;
-    
+
     console.log("Se busca al usuario de la contraseña " + usuarioBuscado);
     let duplicarUsuario;
-    let buscarArray =  JSON.parse(localStorage.getItem('arrayUsuarios'));
+    let buscarArray = JSON.parse(localStorage.getItem('arrayUsuarios'));
     duplicarUsuario = JSON.stringify(buscarArray.find(usuario => usuario.contrasena == usuarioBuscado));
     console.log(duplicarUsuario);
     console.log("Creado el nuevo objeto que se usará para mostrar la información del usuario.");
@@ -91,15 +90,15 @@ document.getElementById("buscarPorContrasena").addEventListener("click", functio
 
 let formIngresoUsuario = document.getElementById("formIngresoUsuario");
 
-function cargarUsuario(){
+function cargarUsuario() {
     cantUsuarios++; //Registro este usuario en la variable que cuenta la cant de usuarios ingresados.
     let nombreIngresado; let apellidoIngresado; let edadIngresada; let contrasenaIngresada;
-    
+
     nombreIngresado = document.getElementById("inputNombreUsuario").value;
     apellidoIngresado = document.getElementById("inputApellidoUsuario").value;
     edadIngresada = document.getElementById("inputEdadUsuario").value;
     contrasenaIngresada = document.getElementById("inputContrasenaUsuario").value;
-    
+
     arrayUsuarios.push( //pusheo un nuevo objeto "Persona" para ser agregado a arrayUsuarios
         new Persona(
             cantUsuarios, //defino al idUsuario (primer dato de la clase) utilizando la cantidad de usuarios, si este es el primero su id será 1.
@@ -116,29 +115,29 @@ function cargarUsuario(){
 }
 
 // EVENT LISTENERS PARA ENVIAR EL FORMULARIO CON TECLA ENTER
-document.getElementById("inputNombreUsuario").addEventListener("keyup", function(evento){
-    if (evento.keyCode === 13){
+document.getElementById("inputNombreUsuario").addEventListener("keyup", function (evento) {
+    if (evento.keyCode === 13) {
         event.preventDefault();
         document.getElementById("btnAgregarUsuario").click();
     }
 });
 
-document.getElementById("inputApellidoUsuario").addEventListener("keyup", function(evento){
-    if (evento.keyCode === 13){
+document.getElementById("inputApellidoUsuario").addEventListener("keyup", function (evento) {
+    if (evento.keyCode === 13) {
         event.preventDefault();
         document.getElementById("btnAgregarUsuario").click();
     }
 });
 
-document.getElementById("inputEdadUsuario").addEventListener("keyup", function(evento){
-    if (evento.keyCode === 13){
+document.getElementById("inputEdadUsuario").addEventListener("keyup", function (evento) {
+    if (evento.keyCode === 13) {
         event.preventDefault();
         document.getElementById("btnAgregarUsuario").click();
     }
 });
 
-document.getElementById("inputContrasenaUsuario").addEventListener("keyup", function(evento){
-    if (evento.keyCode === 13){
+document.getElementById("inputContrasenaUsuario").addEventListener("keyup", function (evento) {
+    if (evento.keyCode === 13) {
         event.preventDefault();
         document.getElementById("btnAgregarUsuario").click();
     }
@@ -147,7 +146,7 @@ document.getElementById("inputContrasenaUsuario").addEventListener("keyup", func
 
 document.getElementById("btnAgregarUsuario").addEventListener("click", cargarUsuario);
 
-function comenzarJuego(){
+function comenzarJuego() {
     window.location.href = "pages/escenaJuegoComenzado.html";
 }
 
