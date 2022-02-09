@@ -24,12 +24,6 @@ let arrayUsuarios = [];
 
 //FUNCIONES
 
-
-function pedirNumero(texto) {
-    let numero = parseInt(prompt(texto))
-    return numero;
-}
-
 function sumarEdad(nuevoDato) {
     sumaEdades = sumaEdades + nuevoDato;
     console.log("La suma de las edades por el momento es: " + sumaEdades);
@@ -41,7 +35,7 @@ function dividir(dato1, dato2, resultado) {
 }
 
 let contMain = document.getElementById("contMain");
-let texto = document.createElement("p"); //Creo un tag <p> en el documento para agregarle el texto con la información del usuario.
+let texto = "";
 let promptBusqueda;
 let ingresoBusqueda;
 let buscarPorContrasena;
@@ -76,12 +70,16 @@ document.getElementById("buscarPorContrasena").addEventListener("click", functio
     console.log("Se busca al usuario de la contraseña " + usuarioBuscado);
     let duplicarUsuario;
     let buscarArray = JSON.parse(localStorage.getItem('arrayUsuarios'));
-    duplicarUsuario = JSON.stringify(buscarArray.find(usuario => usuario.contrasena == usuarioBuscado));
+    duplicarUsuario = buscarArray.find(usuario => usuario.contrasena == usuarioBuscado);
+    
+    delete duplicarUsuario.contrasena; //Se elimina el dato "contraseña", ya que sería redundante.
+    duplicarUsuario = JSON.stringify(duplicarUsuario); //Se convierte el nuevo objeto sin contraseña en string.
+    
     console.log(duplicarUsuario);
     console.log("Creado el nuevo objeto que se usará para mostrar la información del usuario.");
 
-    texto.innerHTML = texto.innerHTML + "<br>" + duplicarUsuario; //Edito el <p> para que muestre el objeto duplicado
-    contMain.appendChild(texto); //Aplico los cambios en el HTML
+    texto = "<br>" + duplicarUsuario; //Edito el <p> para que muestre el objeto duplicado
+    $('#contMain').append("<p>" + texto + "</p>"); //Aplico los cambios en el HTML
     console.log("Agregado al documento (O editado en el mismo) el elemento <p> para mostrar la información");
 
     let renombrarBoton = document.getElementById("btnVerUsuario"); //Ésto sólo va a hacer un cambio notable al primer uso de este botón, cambio el texto del botón para que invite al usuario a volver a usar el botón con un usuario distinto.

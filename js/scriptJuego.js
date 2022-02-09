@@ -66,7 +66,8 @@ function generarIntegerAleatorio(max) {
 
 let preguntaAleatorio = generarIntegerAleatorio(4); //4 Porque hay 5 lugares en el array, incluyendo el puesto 0.
 let preguntaActiva = arrayPreguntas[preguntaAleatorio];
-    preguntaDOM.innerHTML = JSON.stringify(preguntaActiva.pregunta);
+    
+preguntaDOM.innerHTML = JSON.stringify(preguntaActiva.pregunta);
     
     resADOM.innerHTML = JSON.stringify(preguntaActiva.respuestaCorrecta);
     resBDOM.innerHTML = JSON.stringify(preguntaActiva.respuestasIncorrectas[0]);
