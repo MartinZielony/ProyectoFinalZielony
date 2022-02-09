@@ -1,7 +1,11 @@
+$( document ).ready(function() 
+{
+    console.log( "El DOM esta listo" );
+});
+
 console.log("Página Iniciada");
 
-//VARIABLES
-let cantEdades; let sumaEdades = 0; let nuevaEdad; let promedioEdades; let cantUsuarios = 0;
+let cantUsuarios = 0;
 
 //CLASES
 class Persona {
@@ -55,8 +59,7 @@ buscarPorContrasena.setAttribute("class", "d-none");
 buscarPorContrasena.innerHTML = "Buscar"
 contMain.appendChild(buscarPorContrasena);
 
-
-document.getElementById("btnVerUsuario").addEventListener("click", function () {
+$("#btnVerUsuario").click(function(){
     contMain.removeChild(buscarPorContrasena);
     buscarPorContrasena.setAttribute("class", "btn btn-dark");
     contMain.appendChild(promptBusqueda);
@@ -64,7 +67,7 @@ document.getElementById("btnVerUsuario").addEventListener("click", function () {
     contMain.appendChild(buscarPorContrasena);
 });
 
-document.getElementById("buscarPorContrasena").addEventListener("click", function () {
+$("#buscarPorContrasena").click(function(){
     let usuarioBuscado = document.getElementById("ingresoBusqueda").value;
 
     console.log("Se busca al usuario de la contraseña " + usuarioBuscado);
@@ -73,14 +76,21 @@ document.getElementById("buscarPorContrasena").addEventListener("click", functio
     duplicarUsuario = buscarArray.find(usuario => usuario.contrasena == usuarioBuscado);
     
     delete duplicarUsuario.contrasena; //Se elimina el dato "contraseña", ya que sería redundante.
-    duplicarUsuario = JSON.stringify(duplicarUsuario); //Se convierte el nuevo objeto sin contraseña en string.
+    
+    //duplicarUsuario = JSON.stringify(duplicarUsuario); //Se convierte el nuevo objeto sin contraseña en string.
     
     console.log(duplicarUsuario);
     console.log("Creado el nuevo objeto que se usará para mostrar la información del usuario.");
 
-    texto = "<br>" + duplicarUsuario; //Edito el <p> para que muestre el objeto duplicado
-    $('#contMain').append("<p>" + texto + "</p>"); //Aplico los cambios en el HTML
-    console.log("Agregado al documento (O editado en el mismo) el elemento <p> para mostrar la información");
+    //texto = "<br>" + duplicarUsuario; //Edito el <p> para que muestre el objeto duplicado
+    //$('#contMain').append("<p>" + texto + "</p>"); //Aplico los cambios en el HTML
+    
+    $("#contMain").append(`<br>
+                        <div>
+                            <h4>Id: ${duplicarUsuario.idUsuario}, Nombre: ${duplicarUsuario.nombre} ${duplicarUsuario.apellido}</h4>
+                            <span>Edad: ${duplicarUsuario.edad} años</span>
+                            <b>Puntaje Máximo: ${duplicarUsuario.puntajeMAX}</b>
+                        </div>`)
 
     let renombrarBoton = document.getElementById("btnVerUsuario"); //Ésto sólo va a hacer un cambio notable al primer uso de este botón, cambio el texto del botón para que invite al usuario a volver a usar el botón con un usuario distinto.
     renombrarBoton.innerHTML = "Ver Otro Usuario"; //Aplico el cambio
@@ -142,10 +152,10 @@ document.getElementById("inputContrasenaUsuario").addEventListener("keyup", func
 });
 // FIN DE EVENT LISTENERS PARA ENVIAR EL FORMULARIO CON TECLA ENTER
 
-document.getElementById("btnAgregarUsuario").addEventListener("click", cargarUsuario);
+$("#btnAgregarUsuario").click(cargarUsuario);
 
 function comenzarJuego() {
     window.location.href = "pages/escenaJuegoComenzado.html";
 }
 
-document.getElementById("btnComenzarJuego").addEventListener("click", comenzarJuego);
+$("#btnComenzarJuego").click(comenzarJuego);

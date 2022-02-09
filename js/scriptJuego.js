@@ -1,3 +1,8 @@
+$( document ).ready(function() 
+{
+    console.log( "El DOM esta listo" );
+});
+
 class Pregunta {
     constructor(idPregunta, pregunta, respuestaCorrecta, respuestasIncorrectas){
         idPregunta = idPregunta;
@@ -53,12 +58,19 @@ preguntaDOM.setAttribute("class", "fw-bold");
 
 let resADOM = document.createElement("button");
 resADOM.setAttribute("class", "btn btn-dark");
+resADOM.setAttribute("id", "btnRespuestaA");
+
 let resBDOM = document.createElement("button");
 resBDOM.setAttribute("class", "btn btn-dark");
+resBDOM.setAttribute("id", "btnRespuestaB");
+
 let resCDOM = document.createElement("button");
 resCDOM.setAttribute("class", "btn btn-dark");
+resCDOM.setAttribute("id", "btnRespuestaC");
+
 let resDDOM = document.createElement("button");
 resDDOM.setAttribute("class", "btn btn-dark");
+resDDOM.setAttribute("id", "btnRespuestaD");
 
 function generarIntegerAleatorio(max) {
     return Math.floor(Math.random() * max);
@@ -80,8 +92,8 @@ preguntaDOM.innerHTML = JSON.stringify(preguntaActiva.pregunta);
     contOpciones.appendChild(resCDOM);
     contOpciones.appendChild(resDDOM);
 
-resADOM.addEventListener("click", function(){
-resADOM.setAttribute ("class", "btn btn-success")
-puntajeActual = sessionStorage.getItem("puntajeActual")
-sessionStorage.setItem("PuntajeActual", puntajeActual++);
+$("#btnRespuestaA").click(function(){
+    resADOM.setAttribute ("class", "btn btn-success")
+    puntajeActual = sessionStorage.getItem("puntajeActual")
+    sessionStorage.setItem("PuntajeActual", puntajeActual++);
 });
