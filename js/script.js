@@ -3,6 +3,86 @@ $( document ).ready(function()
     console.log( "El DOM esta listo" );
 });
 
+$("body").prepend(`
+    <nav>
+        <h3>Proyecto Final - Juego de Quiz</h3>
+        <button id="btnVerUsuario" type="button" class="btn btn-dark">Ver Usuario</button>
+        <button id="btnComenzarJuego" type="button" class="btn btn-success">Comenzar Juego</button>
+    </nav>
+    <hr>
+`);
+
+$("body").append(`
+<main id="contMain">
+        <form id="formIngresoUsuario" class="formIngreso">
+            <div class="form-group" id="formGroupNombre">
+                <label>Nombre</label>
+                <input type="text" class="form-control" id="inputNombreUsuario" placeholder="Ingrese su Nombre">
+            </div>
+
+            <div class="form-group" id="formGroupApellido">
+                <label>Apellido</label>
+                <input type="text" class="form-control" id="inputApellidoUsuario" placeholder="Ingrese su Apellido">
+            </div>
+
+            <div class="form-group" id="formGroupEdad">
+                <label>Edad (Años)</label>
+                <input type="number" class="form-control" id="inputEdadUsuario" placeholder="Ingrese su edad en Años">
+            </div>
+
+            <div class="form-group" id="formGroupContrasena">
+                <label>Contraseña</label>
+                <input type="password" class="form-control" id="inputContrasenaUsuario" placeholder="Ingrese su Contraseña">
+            </div>
+            <br>
+            <button id="btnAgregarUsuario" type="button" class="btn btn-dark">Agregar Usuario</button>
+            <span id="elementoADesvanecer">¡Hola!</span>
+        </form>
+    </main>
+    `);
+
+$("body").append(`
+<footer>
+        <hr>
+        <h3>Curso de JScript - Comisión 24385</h3>
+    </footer>
+    `);
+
+$("nav").hide(); 
+$("nav").fadeIn();
+
+$("main").hide();
+$("main").fadeIn();
+
+$("footer").hide();
+$("footer").fadeIn("slow", function(){//Aparecen con FadeIn todos los elementos del HTML
+    console.log("Aparecieron los elementos del Body")
+});
+
+$("#elementoADesvanecer").animate({marginLeft: '100px'}, "slow", function(){ //se aumenta el margen del span
+    console.log("se aumentó el margen de elementoADesvanecer 100px.")});
+
+$("#elementoADesvanecer").animate({marginLeft: '0px'}, "slow", //se vuelve a diminuir el margen del span
+    console.log("Se devolvió el margen del span a 0px."));
+
+$("#elementoADesvanecer").fadeOut("slow", function(){ //se desvanece el span
+    console.log("Se desvanece el span.");
+
+    $(".formIngreso").animate({height:'50vw'}) //se disminuye la altura del form
+    .delay(2000) //se esperan 2seg
+    .animate({height:'100%'}) //se vuelve a aumentar la altura del form.
+
+    console.log("Se disminuyó y volvió a aumentar la altura del form.");
+});
+
+
+
+
+
+
+
+
+
 console.log("Página Iniciada");
 
 let cantUsuarios = 0;
