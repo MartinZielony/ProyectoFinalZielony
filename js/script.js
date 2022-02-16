@@ -158,4 +158,9 @@ function comenzarJuego() {
     window.location.href = "pages/escenaJuegoComenzado.html";
 }
 
+function irDesafioAJAX(){
+    window.location.href = "pages/ejemploAJAX.html"
+}
+
 $("#btnComenzarJuego").click(comenzarJuego);
+$("#btnEjemploAJAX").click(irDesafioAJAX);
