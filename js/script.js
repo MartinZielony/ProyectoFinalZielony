@@ -5,6 +5,17 @@ $( document ).ready(function()
 
 console.log("Página Iniciada");
 
+$("nav").hide(); 
+$("nav").fadeIn();
+
+$("main").hide();
+$("main").fadeIn();
+
+$("footer").hide();
+$("footer").fadeIn("slow", function(){//Aparecen con FadeIn todos los elementos del HTML
+    console.log("Aparecieron los elementos del Body")
+});
+
 let cantUsuarios = 0;
 
 //CLASES
@@ -38,14 +49,13 @@ function dividir(dato1, dato2, resultado) {
     return resultado;
 }
 
-let contMain = document.getElementById("contMain");
 let texto = "";
 let promptBusqueda;
 let ingresoBusqueda;
 let buscarPorContrasena;
 
 promptBusqueda = document.createElement("label");
-promptBusqueda.innerHTML = "<br> Ingrese la contraseña del usuario cuya información desee ver: ";
+
 
 ingresoBusqueda = document.createElement("input");
 ingresoBusqueda.setAttribute("id", "ingresoBusqueda");
@@ -62,9 +72,11 @@ contMain.appendChild(buscarPorContrasena);
 $("#btnVerUsuario").click(function(){
     contMain.removeChild(buscarPorContrasena);
     buscarPorContrasena.setAttribute("class", "btn btn-dark");
-    contMain.appendChild(promptBusqueda);
-    contMain.appendChild(ingresoBusqueda);
-    contMain.appendChild(buscarPorContrasena);
+    $("#contMain").append(`<br> <label>Ingrese la contraseña del usuario cuya información desee ver: </label>
+                            <input id="ingresoBusqueda" class="form-control" placeholder="Contraseña"></input>
+                            <button id="buscarPorContrasena" class="d-none">Buscar</button>`)
+    
+    
 });
 
 $("#buscarPorContrasena").click(function(){

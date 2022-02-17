@@ -1,0 +1,32 @@
+[
+    {
+        "idPregunta":1,
+        "pregunta":"¿Cómo se llama el creador de este proyecto?",
+        "respuestaCorrecta":"Martín Zielony","respuestaInc1":"Florencia Hendel",
+        "respuestasIncorrectas":["Florencia Hendel","Luis Laverde","Dani Bootstrap García"]
+    },
+    {
+        "idPregunta":2,
+        "pregunta":"¿Qué se enseña en el curso en el que hice este proyecto?",
+        "respuestaCorrecta":"Javascript",
+        "respuestasIncorrectas":["HTML/CSS","ReactJs","Desarrollo FrontEnd"]
+    },
+    {
+        "idPregunta":3,
+        "pregunta":"¿En qué plataforma se dictan (idealmente) las clases?",
+        "respuestaCorrecta":"Zoom",
+        "respuestasIncorrectas":["Google Meet","Microsoft Teams","Facebook"]
+    },
+    {
+        "idPregunta":4,
+        "pregunta":"¿En qué rango horario tiene clases esta comisión 24385?",
+        "respuestaCorrecta":"20:30 a 22:30",
+        "respuestasIncorrectas":["19:30 a 21:30","10 a 12","15:30 a 17:30"]
+    },
+    {
+        "idPregunta":5,
+        "pregunta":"¿Cómo se llama el tutor del creador de este proyecto?",
+        "respuestaCorrecta":"Luis Laverde",
+        "respuestasIncorrectas":["Milton Salazar","Martín Zielony","Ezequiel Galardi"]
+    }
+]

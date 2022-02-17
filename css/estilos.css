@@ -23,6 +23,9 @@ body article {
   flex-flow: column nowrap;
   height: 100vw; }
 
+body main {
+  height: 75vw; }
+
 #contQuiz {
   display: flex;
   align-items: center; }
@@ -31,4 +34,16 @@ body article {
   display: flex;
   flex-flow: column nowrap;
   width: 50%;
-  margin: 0.5vw 0vw; }
+  margin: 0.5vw 0vw;
+  justify-content: space-evenly; }
+
+.contOpciones {
+  height: 25%; }
+
+.formIngreso {
+  height: 100%; }
+
+#formIngresoUsuario {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; }
