@@ -79,7 +79,7 @@ $("#btnVerUsuario").click(function () {
 });
 
 $("#buscarPorContrasena").click(function () {
-    let usuarioBuscado = document.getElementById("ingresoBusqueda").value;
+    let usuarioBuscado = $("#ingresoBusqueda").val();
 
     console.log("Se busca al usuario de la contraseña " + usuarioBuscado);
     let duplicarUsuario;
@@ -103,20 +103,19 @@ $("#buscarPorContrasena").click(function () {
                             <b>Puntaje Máximo: ${duplicarUsuario.puntajeMAX}</b>
                         </div>`)
 
-    let renombrarBoton = document.getElementById("btnVerUsuario"); //Ésto sólo va a hacer un cambio notable al primer uso de este botón, cambio el texto del botón para que invite al usuario a volver a usar el botón con un usuario distinto.
-    renombrarBoton.innerHTML = "Ver Otro Usuario"; //Aplico el cambio
+    $("#btnVerUsuario").html() = "Ver Otro Usuario"; //Aplico el cambio
 });
 
-let formIngresoUsuario = document.getElementById("formIngresoUsuario");
+
 
 function cargarUsuario() {
     cantUsuarios++; //Registro este usuario en la variable que cuenta la cant de usuarios ingresados.
     let nombreIngresado; let apellidoIngresado; let edadIngresada; let contrasenaIngresada;
 
-    nombreIngresado = document.getElementById("inputNombreUsuario").value;
-    apellidoIngresado = document.getElementById("inputApellidoUsuario").value;
-    edadIngresada = document.getElementById("inputEdadUsuario").value;
-    contrasenaIngresada = document.getElementById("inputContrasenaUsuario").value;
+    nombreIngresado = $("#inputNombreUsuario").val();
+    apellidoIngresado = $("#inputApellidoUsuario").val();
+    edadIngresada = $("#inputEdadUsuario").val();
+    contrasenaIngresada = $("#inputContrasenaUsuario").val();
 
     arrayUsuarios.push( //pusheo un nuevo objeto "Persona" para ser agregado a arrayUsuarios
         new Persona(
@@ -128,37 +127,39 @@ function cargarUsuario() {
             0
         )
     )
-    formIngresoUsuario.reset();
+    $('#formIngresoUsuario').trigger("reset");
     localStorage.setItem('arrayUsuarios', JSON.stringify(arrayUsuarios));
     console.log(arrayUsuarios.find(usuario => usuario.idUsuario === cantUsuarios));
 }
 
 // EVENT LISTENERS PARA ENVIAR EL FORMULARIO CON TECLA ENTER
-document.getElementById("inputNombreUsuario").addEventListener("keyup", function (e) {
+
+
+$("#inputNombreUsuario").keyup((e) => {
     if (e.keyCode === 13) {
         e.preventDefault();
-        document.getElementById("btnAgregarUsuario").click();
+        $("#btnAgregarUsuario").click();
     }
 });
 
-document.getElementById("inputApellidoUsuario").addEventListener("keyup", function (e) {
+$("#inputApellidoUsuario").keyup((e) => {
     if (e.keyCode === 13) {
         e.preventDefault();
-        document.getElementById("btnAgregarUsuario").click();
+        $("#btnAgregarUsuario").click();
     }
 });
 
-document.getElementById("inputEdadUsuario").addEventListener("keyup", function (e) {
+$("#inputEdadUsuario").keyup((e) => {
     if (e.keyCode === 13) {
         e.preventDefault();
-        document.getElementById("btnAgregarUsuario").click();
+        $("#btnAgregarUsuario").click();
     }
 });
 
-document.getElementById("inputContrasenaUsuario").addEventListener("keyup", function (e) {
+$("#inputContrasenaUsuario").keyup((e) => {
     if (e.keyCode === 13) {
         e.preventDefault();
-        document.getElementById("btnAgregarUsuario").click();
+        $("#btnAgregarUsuario").click();
     }
 });
 // FIN DE EVENT LISTENERS PARA ENVIAR EL FORMULARIO CON TECLA ENTER
