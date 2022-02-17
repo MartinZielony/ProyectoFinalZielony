@@ -71,30 +71,29 @@ contMain.appendChild(buscarPorContrasena);
 $("#btnVerUsuario").click(function () {
     contMain.removeChild(buscarPorContrasena);
     buscarPorContrasena.setAttribute("class", "btn btn-dark");
-    $("#contMain").append(`<br> <label>Ingrese la contraseña del usuario cuya información desee ver: </label>
-                            <input id="ingresoBusqueda" class="form-control" placeholder="Contraseña"></input>
-                            <button id="buscarPorContrasena" class="d-none">Buscar</button>`)
+    $("#formIngresoUsuario").append(`<div class="form-group" id="formGroupBusqueda">
+                                <label>Ingrese la contraseña del usuario cuya información desee ver: </label>
+                                <input type="password" class="form-control" id="inputNombreUsuario" placeholder="Contraseña">
+                                <button id="buscarPorContrasena" type="button" class="btn btn-dark">Buscar</button>
+                            </div>`)
 
 
 });
 
-$("#buscarPorContrasena").click(function () {
+$("#buscarPorContrasena").click(function (evento) {
+    console.log("busqueda por contraseña");
+    
     let usuarioBuscado = $("#ingresoBusqueda").val();
 
     console.log("Se busca al usuario de la contraseña " + usuarioBuscado);
-    let duplicarUsuario;
+    
     let buscarArray = JSON.parse(localStorage.getItem('arrayUsuarios'));
-    duplicarUsuario = buscarArray.find(usuario => usuario.contrasena == usuarioBuscado);
+    let duplicarUsuario = buscarArray.find(usuario => usuario.contrasena == usuarioBuscado);
 
     delete duplicarUsuario.contrasena; //Se elimina el dato "contraseña", ya que sería redundante.
 
-    //duplicarUsuario = JSON.stringify(duplicarUsuario); //Se convierte el nuevo objeto sin contraseña en string.
-
     console.log(duplicarUsuario);
     console.log("Creado el nuevo objeto que se usará para mostrar la información del usuario.");
-
-    //texto = "<br>" + duplicarUsuario; //Edito el <p> para que muestre el objeto duplicado
-    //$('#contMain').append("<p>" + texto + "</p>"); //Aplico los cambios en el HTML
 
     $("#contMain").append(`<br>
                         <div>
@@ -108,8 +107,25 @@ $("#buscarPorContrasena").click(function () {
 
 
 
-function cargarUsuario() {
-    cantUsuarios++; //Registro este usuario en la variable que cuenta la cant de usuarios ingresados.
+function cargarUsuario(evento) {
+    nombreIngresado = $("#inputNombreUsuario").val();
+    apellidoIngresado = $("#inputApellidoUsuario").val();
+    edadIngresada = $("#inputEdadUsuario").val();
+    contrasenaIngresada = $("#inputContrasenaUsuario").val();
+
+    let arrayVerificar = [nombreIngresado, apellidoIngresado, edadIngresada, contrasenaIngresada];
+    let cantItemsIncompletos = 0;
+    for (let index = 0; index < arrayVerificar.length; index++) {
+        if((arrayVerificar[index]) == "" || (arrayVerificar[index] == " ") ){
+            cantItemsIncompletos++;
+        }
+    }
+    if(cantItemsIncompletos > 0){
+        evento.preventDefault();
+        $("#formIngresoUsuario").append(`<label id="lblErrorForm">`+cantItemsIncompletos+` items en el formulario están incompletos.</label>`)
+    } else {
+        $("#lblErrorForm").remove();
+        cantUsuarios++; //Registro este usuario en la variable que cuenta la cant de usuarios ingresados.
     let nombreIngresado; let apellidoIngresado; let edadIngresada; let contrasenaIngresada;
 
     nombreIngresado = $("#inputNombreUsuario").val();
@@ -130,6 +146,8 @@ function cargarUsuario() {
     $('#formIngresoUsuario').trigger("reset");
     localStorage.setItem('arrayUsuarios', JSON.stringify(arrayUsuarios));
     console.log(arrayUsuarios.find(usuario => usuario.idUsuario === cantUsuarios));
+    }
+    
 }
 
 // EVENT LISTENERS PARA ENVIAR EL FORMULARIO CON TECLA ENTER
