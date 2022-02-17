@@ -1,10 +1,9 @@
-$( document ).ready(function() 
-{
-    console.log( "El DOM esta listo" );
+$(document).ready(function () {
+    console.log("El DOM esta listo");
 });
 
 class Pregunta {
-    constructor(idPregunta, pregunta, respuestaCorrecta, respuestasIncorrectas){
+    constructor(idPregunta, pregunta, respuestaCorrecta, respuestasIncorrectas) {
         idPregunta = idPregunta;
         pregunta = pregunta;
         respuestaCorrecta = respuestaCorrecta;
@@ -27,7 +26,7 @@ function generarIntegerAleatorio(max) {
 let ordenPreguntas = generarIntegerAleatorio(15);
 
 $.ajax({
-    type:"GET",
+    type: "GET",
     url: URLJSON,
     success: (respuesta) => {
         console.log("Éxito al llamar al JSON de preguntas: " + JSON.stringify(respuesta));
@@ -168,34 +167,34 @@ $.ajax({
                 break;
         }
 
-        $("#btnCorrecto").click(function(){
+        $("#btnCorrecto").click(function () {
             $("#btnCorrecto").attr("class", "btn btn-success")
             puntajeActual++;
             turnosTranscurridos++;
         });
-        
-        $("#btnRespuestaA").click(function(){
+
+        $("#btnRespuestaA").click(function () {
             $("#btnRespuestaA").attr("class", "btn btn-danger")
             intentosFallidos++;
             puntajeActual--;
         });
-        
-        $("#btnRespuestaB").click(function(){
+
+        $("#btnRespuestaB").click(function () {
             $("#btnRespuestaB").attr("class", "btn btn-danger")
             intentosFallidos++;
             puntajeActual--;
         });
-        
-        $("#btnRespuestaC").click(function(){
+
+        $("#btnRespuestaC").click(function () {
             $("#btnRespuestaC").attr("class", "btn btn-danger")
             intentosFallidos++;
             puntajeActual--;
         });
-        $("#btnRespuestaD").click(function(){
+        $("#btnRespuestaD").click(function () {
             $("#btnRespuestaD").attr("class", "btn btn-danger")
             intentosFallidos++;
             puntajeActual--;
-        }); 
+        });
     }
 });
 
