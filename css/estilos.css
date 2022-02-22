@@ -1,30 +1,27 @@
 html {
   font-family: 'Roboto', sans-serif; }
 
-body nav {
-  padding-top: 1vw;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly; }
-
-body p {
-  font-weight: bold;
-  text-align: center; }
-
-body form {
-  width: 75%;
-  margin: 0 auto; }
-
-body footer {
-  text-align: center; }
-
-body article {
-  display: flex;
-  flex-flow: column nowrap;
-  height: 100vw; }
-
-body main {
-  height: 75vw; }
+body {
+  overflow-y: auto; }
+  body nav {
+    padding-top: 1vw;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly; }
+  body p {
+    font-weight: bold;
+    text-align: center; }
+  body form {
+    width: 75%;
+    margin: 0 auto; }
+  body footer {
+    text-align: center; }
+  body article {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100vw; }
+  body main {
+    height: wrap; }
 
 #contQuiz {
   display: flex;

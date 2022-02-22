@@ -38,49 +38,12 @@ let arrayUsuarios = [];
 
 //FUNCIONES
 
-function sumarEdad(nuevoDato) {
-    sumaEdades = sumaEdades + nuevoDato;
-    console.log("La suma de las edades por el momento es: " + sumaEdades);
-}
-
 function dividir(dato1, dato2, resultado) {
     resultado = dato1 / dato2;
     return resultado;
 }
 
-let texto = "";
-let promptBusqueda;
-let ingresoBusqueda;
-let buscarPorContrasena;
-
-promptBusqueda = document.createElement("label");
-
-
-ingresoBusqueda = document.createElement("input");
-ingresoBusqueda.setAttribute("id", "ingresoBusqueda");
-ingresoBusqueda.setAttribute("type", "password");
-ingresoBusqueda.setAttribute("class", "form-control")
-ingresoBusqueda.setAttribute("placeholder", "Contraseña")
-
-buscarPorContrasena = document.createElement("button");
-buscarPorContrasena.setAttribute("id", "buscarPorContrasena");
-buscarPorContrasena.setAttribute("class", "d-none");
-buscarPorContrasena.innerHTML = "Buscar"
-contMain.appendChild(buscarPorContrasena);
-
-$("#btnVerUsuario").click(function () {
-    contMain.removeChild(buscarPorContrasena);
-    buscarPorContrasena.setAttribute("class", "btn btn-dark");
-    $("#formIngresoUsuario").append(`<div class="form-group" id="formGroupBusqueda">
-                                <label>Ingrese la contraseña del usuario cuya información desee ver: </label>
-                                <input type="password" class="form-control" id="inputNombreUsuario" placeholder="Contraseña">
-                                <button id="buscarPorContrasena" type="button" class="btn btn-dark">Buscar</button>
-                            </div>`)
-
-
-});
-
-$("#buscarPorContrasena").click(function (evento) {
+function btnBuscaContrasena() {
     console.log("busqueda por contraseña");
     
     let usuarioBuscado = $("#ingresoBusqueda").val();
@@ -102,12 +65,28 @@ $("#buscarPorContrasena").click(function (evento) {
                             <b>Puntaje Máximo: ${duplicarUsuario.puntajeMAX}</b>
                         </div>`)
 
-    $("#btnVerUsuario").html() = "Ver Otro Usuario"; //Aplico el cambio
+    $("#ingresoBusqueda").val("");
+    $("#formGroupBusqueda").remove();
+    $("#btnVerUsuario").html("Ver Otro Usuario") ; //Aplico el cambio
+};
+
+$("#btnVerUsuario").click(function () {
+    $("#formIngresoUsuario").append(
+`<div class="form-group" id="formGroupBusqueda">
+    <label>Ingrese la contraseña del usuario cuya información desee ver: </label>
+    <input type="password" class="form-control" id="ingresoBusqueda" placeholder="Contraseña">
+    <button id="buscarPorContrasena" type="button" class="btn btn-dark">Buscar</button>
+</div>`);
+
+                            $("#buscarPorContrasena").click(btnBuscaContrasena);
 });
 
 
 
+
+
 function cargarUsuario(evento) {
+    console.log("cargar usuario")
     nombreIngresado = $("#inputNombreUsuario").val();
     apellidoIngresado = $("#inputApellidoUsuario").val();
     edadIngresada = $("#inputEdadUsuario").val();
@@ -125,28 +104,45 @@ function cargarUsuario(evento) {
         $("#formIngresoUsuario").append(`<label id="lblErrorForm">`+cantItemsIncompletos+` items en el formulario están incompletos.</label>`)
     } else {
         $("#lblErrorForm").remove();
-        cantUsuarios++; //Registro este usuario en la variable que cuenta la cant de usuarios ingresados.
-    let nombreIngresado; let apellidoIngresado; let edadIngresada; let contrasenaIngresada;
 
-    nombreIngresado = $("#inputNombreUsuario").val();
-    apellidoIngresado = $("#inputApellidoUsuario").val();
-    edadIngresada = $("#inputEdadUsuario").val();
-    contrasenaIngresada = $("#inputContrasenaUsuario").val();
+let URLUsuarios = "./json/usuarios.json";
 
-    arrayUsuarios.push( //pusheo un nuevo objeto "Persona" para ser agregado a arrayUsuarios
-        new Persona(
-            cantUsuarios, //defino al idUsuario (primer dato de la clase) utilizando la cantidad de usuarios, si este es el primero su id será 1.
-            nombreIngresado,
-            apellidoIngresado,
-            edadIngresada,
-            contrasenaIngresada,
-            0
-        )
+    $.ajax({
+        type: "GET",
+        url: URLUsuarios,
+        success: (respuesta) => {
+            console.log("Éxito al llamar al JSON de Usuarios para definir ID del nuevo Usuario");
+            arrayUsuarios = respuesta;
+            cantUsuarios = arrayUsuarios.length;
+            cantUsuarios++;
+            console.log("Cant de Usuarios Actual: " + cantUsuarios);
+
+            arrayUsuarios.push( //pusheo un nuevo objeto "Persona" para ser agregado a arrayUsuarios
+    new Persona(
+        cantUsuarios, //defino al idUsuario (primer dato de la clase) utilizando la cantidad de usuarios, si este es el primero su id será 1.
+        nombreIngresado,
+        apellidoIngresado,
+        edadIngresada,
+        contrasenaIngresada,
+        0
     )
-    $('#formIngresoUsuario').trigger("reset");
-    localStorage.setItem('arrayUsuarios', JSON.stringify(arrayUsuarios));
-    console.log(arrayUsuarios.find(usuario => usuario.idUsuario === cantUsuarios));
-    }
+)
+$('#formIngresoUsuario').trigger("reset");
+
+$.ajax({
+    type: "POST",
+    url: URLUsuarios,
+    data: arrayUsuarios,
+    success: () => {
+        console.log("Éxito al llamar al JSON de Usuarios para agregar usuario");
+        console.log("Usuario Agregado: " + arrayUsuarios.find(usuario => usuario.idUsuario === cantUsuarios));
+                },
+    error: () => {console.log("Error al llamar al JSON de usuarios para agregar Usuario")}
+            });
+        },
+        error: () => {console.log("Error al llamar al Json de Usuarios para definir ID de usuario nuevo")}
+    });
+}
     
 }
 
