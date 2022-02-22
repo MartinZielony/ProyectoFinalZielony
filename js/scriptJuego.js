@@ -2,7 +2,7 @@ $(document).ready(function () {
     console.log("El DOM esta listo");
 });
 
-class Pregunta {
+class Pregunta { // El objeto pregunta tiene la info de cada pregunta
     constructor(idPregunta, pregunta, respuestaCorrecta, respuestasIncorrectas) {
         idPregunta = idPregunta;
         pregunta = pregunta;
@@ -13,18 +13,19 @@ class Pregunta {
 
 let puntajeActual = 0;
 let intentosFallidos = 0;
-
+let turnosTranscurridos = 0;
+let haRespondido = false;
 
 let preguntaActiva;
 
-function generarIntegerAleatorio(max) {
+function generarIntegerAleatorio(max) { //Esta función genera un número aleatorio entre 0 y max
     return Math.floor(Math.random() * max);
 }
 
-function limpiarOpciones(){
+function limpiarOpciones(){ // Esta función limpiarOpciones limpia el label y los botones, la uso para cambiar de pregunta/opciones
 intentosFallidos = 0;
-respondidoCorrecto = false;
-
+pasaNivel = false;
+turnosTranscurridos++;
 
     $("#lblPregunta").html("");
     $("#btnRespuestaA").html("");
@@ -38,7 +39,7 @@ respondidoCorrecto = false;
     $("#btnCorrecto").html("")
     $("#btnCorrecto").attr("class", "btn btn-dark");
 
-    switch (ordenPreguntas) {
+    switch (ordenPreguntas) { //Este switch define un orden de respuestas de acuerdo a un valor aleatorio
         case 0:
             $("#btnCorrecto").attr("id", "btnRespuestaC");
             break;
@@ -90,36 +91,12 @@ respondidoCorrecto = false;
     }
 }
 
-let ordenPreguntas = generarIntegerAleatorio(15);
-let arrayPreguntas;
-var URLJSON = "../json/preguntas.json";
-var respondidoCorrecto = false;
+let ordenPreguntas = generarIntegerAleatorio(15); //Este es el valor aleatorio que define el orden de las respuestas
+let arrayPreguntas; //Acá se guardan todas las preguntas una vez se consiguieron del json
+var URLJSON = "../json/preguntas.json"; //Ruta al .json que contiene las preguntas
+var pasaNivel = false;
 
 function mostrarOpciones(nroPregunta){
-
-    $("#btnRespuestaA").click(function () {
-        $("#btnRespuestaA").attr("class", "btn btn-danger")
-        intentosFallidos++;
-        puntajeActual--;
-    });
-
-    $("#btnRespuestaB").click(function () {
-        $("#btnRespuestaB").attr("class", "btn btn-danger")
-        intentosFallidos++;
-        puntajeActual--;
-    });
-
-    $("#btnRespuestaC").click(function () {
-        $("#btnRespuestaC").attr("class", "btn btn-danger")
-        intentosFallidos++;
-        puntajeActual--;
-    });
-    $("#btnRespuestaD").click(function () {
-        $("#btnRespuestaD").attr("class", "btn btn-danger")
-        intentosFallidos++;
-        puntajeActual--;
-    });
-
 preguntaActiva = arrayPreguntas[nroPregunta];
 $("#lblPregunta").html(JSON.stringify(preguntaActiva.pregunta));
 
@@ -245,6 +222,7 @@ switch (ordenPreguntas) {
         $("#btnRespuestaD").attr("id", "btnCorrecto");
         break;
     case 15:
+        console.log("Orden de preguntas caso: " + ordenPreguntas);
         $("#btnRespuestaA").html(JSON.stringify(preguntaActiva.respuestaCorrecta));
         $("#btnRespuestaA").attr("id", "btnCorrecto");
         $("#btnRespuestaB").html(JSON.stringify(preguntaActiva.respuestasIncorrectas[0]));
@@ -252,38 +230,85 @@ switch (ordenPreguntas) {
         $("#btnRespuestaD").html(JSON.stringify(preguntaActiva.respuestasIncorrectas[1]));
         break;
 }
-
-$("#btnCorrecto").click(function () {
-    $("#btnCorrecto").attr("class", "btn btn-success")
-    puntajeActual++;
-    respondidoCorrecto = true;
-});
-
 }
 
-function checkearRespuestas(){
-    if ((intentosFallidos>=2)||(respondidoCorrecto == true)){
-        console.log("Siguiente Turno")
-        limpiarOpciones();
+function correrNivel(nroDePregunta){
+    limpiarOpciones();
+    pasaNivel = false;
+    mostrarOpciones(nroDePregunta);
 
-    } else { //Este else se ejecuta indefinidamente, lo comprobé con un .log que se ejecutaba repetidas veces.
-        //console.log("Se checkearon las respuestas"); Este es el .log
-        setTimeout(checkearRespuestas, 300);
-    }
+                    while(pasaNivel==false){
+                        $("#btnCorrecto").click(function () {
+                                    $("#btnCorrecto").attr("class", "btn btn-success")
+                                    puntajeActual++;
+                                    haRespondido = true;
+                                    pasaNivel = true;
+                                    limpiarOpciones();
+                                });
+
+                                $("#btnRespuestaA").click(function () {
+                                    $("#btnRespuestaA").attr("class", "btn btn-danger")
+                                    intentosFallidos++;
+                                    haRespondido = true;
+                                    puntajeActual--;
+                                });
+                            
+                                $("#btnRespuestaB").click(function () {
+                                    $("#btnRespuestaB").attr("class", "btn btn-danger")
+                                    intentosFallidos++;
+                                    haRespondido = true;
+                                    puntajeActual--;
+                                });
+                            
+                                $("#btnRespuestaC").click(function () {
+                                    $("#btnRespuestaC").attr("class", "btn btn-danger")
+                                    intentosFallidos++;
+                                    haRespondido = true;
+                                    puntajeActual--;
+                                });
+                                $("#btnRespuestaD").click(function () {
+                                    $("#btnRespuestaD").attr("class", "btn btn-danger")
+                                    intentosFallidos++;
+                                    haRespondido = true;
+                                    puntajeActual--;
+                                });
+
+                        if(haRespondido){
+                            haRespondido = false;
+                            if(intentosFallidos==2){
+                                pasaNivel = true;
+                            }
+                        }
+                    }
 }
 
 $.ajax({
     type: "GET",
     url: URLJSON,
     success: (respuesta) => {
-        console.log("Éxito al llamar al JSON de preguntas: " + JSON.stringify(respuesta));
+        console.log("Éxito al llamar al N de preguntas: " + JSON.stringify(respuesta));
         arrayPreguntas = respuesta;
-        for (let index = 0; index < arrayPreguntas.length; index++) {
-            mostrarOpciones(index);
-            checkearRespuestas();
+        while (turnosTranscurridos < 5) {
+            switch (turnosTranscurridos) {
+                case 0:
+                    correrNivel(1);
+                    break;
+                case 1:
+                    correrNivel(2);
+                    break;
+                case 2:
+                    correrNivel(3);
+                    break;
+                case 3:
+                    correrNivel(4);
+                    break;
+                case 4:
+                    correrNivel(5);
+                    break;
+            }
         }
         
-        respondidoCorrecto = false;
+        pasaNivel = false;
         
 
         $("#contQuiz").hide();
