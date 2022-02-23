@@ -2,6 +2,8 @@ $(document).ready(function () {
     console.log("El DOM esta listo");
 });
 
+let arrayUsuarios = JSON.parse(localStorage.getItem("arrayUsuarios"));
+
 class Pregunta { // El objeto pregunta tiene la info de cada pregunta
     constructor(idPregunta, pregunta, respuestaCorrecta, respuestasIncorrectas) {
         idPregunta = idPregunta;

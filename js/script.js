@@ -2,6 +2,17 @@ $(document).ready(function () {
     console.log("El DOM esta listo");
 });
 
+let arrayUsuarios = [];
+let cantUsuarios = 0;
+var visitaPrimeraVez = localStorage.getItem("first_time");
+    if(visitaPrimeraVez){
+        console.log("Primera visita");
+        localStorage.setItem("arrayUsuarios", JSON.stringify([]));
+    } else {
+        arrayUsuarios = JSON.parse(localStorage.getItem("arrayUsuarios"));
+        cantUsuarios = arrayUsuarios.length;
+    }
+
 console.log("Página Iniciada");
 
 $("nav").hide();
@@ -15,7 +26,7 @@ $("footer").fadeIn("slow", function () {//Aparecen con FadeIn todos los elemento
     console.log("Aparecieron los elementos del Body")
 });
 
-let cantUsuarios = 0;
+
 
 //CLASES
 class Persona {
@@ -33,9 +44,6 @@ class Persona {
     }
 }
 
-//ARRAYS
-let arrayUsuarios = [];
-
 //FUNCIONES
 
 function dividir(dato1, dato2, resultado) {
@@ -51,7 +59,7 @@ function btnBuscaContrasena() {
     console.log("Se busca al usuario de la contraseña " + usuarioBuscado);
     
     let buscarArray = JSON.parse(localStorage.getItem('arrayUsuarios'));
-    let duplicarUsuario = buscarArray.find(usuario => usuario.contrasena == usuarioBuscado);
+    let duplicarUsuario = buscar-Array.find(usuario => usuario.contrasena == usuarioBuscado);
 
     delete duplicarUsuario.contrasena; //Se elimina el dato "contraseña", ya que sería redundante.
 
@@ -105,50 +113,24 @@ function cargarUsuario(evento) {
     } else {
         $("#lblErrorForm").remove();
 
-let URLUsuarios = "./json/usuarios.json";
-
-    $.ajax({
-        type: "GET",
-        url: URLUsuarios,
-        success: (respuesta) => {
-            console.log("Éxito al llamar al JSON de Usuarios para definir ID del nuevo Usuario");
-            arrayUsuarios = respuesta;
-            cantUsuarios = arrayUsuarios.length;
-            cantUsuarios++;
-            console.log("Cant de Usuarios Actual: " + cantUsuarios);
-
-            arrayUsuarios.push( //pusheo un nuevo objeto "Persona" para ser agregado a arrayUsuarios
+        arrayUsuarios.push( //pusheo un nuevo objeto "Persona" para ser agregado a arrayUsuarios
     new Persona(
         cantUsuarios, //defino al idUsuario (primer dato de la clase) utilizando la cantidad de usuarios, si este es el primero su id será 1.
         nombreIngresado,
         apellidoIngresado,
         edadIngresada,
         contrasenaIngresada,
-        0
+        0 //Puntaje máximo en 0
     )
 )
+console.log("Usuario Agregado: " + JSON.stringify(arrayUsuarios[cantUsuarios]));
+localStorage.setItem("arrayUsuarios", JSON.stringify(arrayUsuarios));
 $('#formIngresoUsuario').trigger("reset");
-
-$.ajax({
-    type: "POST",
-    url: URLUsuarios,
-    data: arrayUsuarios,
-    success: () => {
-        console.log("Éxito al llamar al JSON de Usuarios para agregar usuario");
-        console.log("Usuario Agregado: " + arrayUsuarios.find(usuario => usuario.idUsuario === cantUsuarios));
-                },
-    error: () => {console.log("Error al llamar al JSON de usuarios para agregar Usuario")}
-            });
-        },
-        error: () => {console.log("Error al llamar al Json de Usuarios para definir ID de usuario nuevo")}
-    });
 }
-    
+
 }
 
 // EVENT LISTENERS PARA ENVIAR EL FORMULARIO CON TECLA ENTER
-
-
 $("#inputNombreUsuario").keyup((e) => {
     if (e.keyCode === 13) {
         e.preventDefault();
