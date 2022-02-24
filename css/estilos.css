@@ -19,23 +19,31 @@ body {
   body article {
     display: flex;
     flex-flow: column nowrap;
-    height: 100vw; }
+    height: 10vw; }
   body main {
     height: wrap; }
 
 #contQuiz {
   display: flex;
-  align-items: center; }
+  align-items: center;
+  justify-content: space-between; }
 
 #contOpciones {
   display: flex;
   flex-flow: column nowrap;
-  width: 50%;
+  width: 75%;
   margin: 0.5vw 0vw;
   justify-content: space-evenly; }
 
 .contOpciones {
-  height: 25%; }
+  height: 25%;
+  width: 75%; }
+
+#contOpciones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  justify-items: center; }
 
 .formIngreso {
   height: 100%; }

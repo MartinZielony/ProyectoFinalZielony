@@ -3,7 +3,7 @@
         "idPregunta":1,
         "pregunta":"¿Cómo se llama el creador de este proyecto?",
         "respuestaCorrecta":"Martín Zielony","respuestaInc1":"Florencia Hendel",
-        "respuestasIncorrectas":["Florencia Hendel","Luis Laverde","Dani Bootstrap García"]
+        "respuestasIncorrectas":["Florencia Hendel","Luis Laverde","Dani García"]
     },
     {
         "idPregunta":2,
