@@ -26,24 +26,30 @@ body {
 #contQuiz {
   display: flex;
   align-items: center;
-  justify-content: space-between; }
-
-#contOpciones {
-  display: flex;
-  flex-flow: column nowrap;
-  width: 75%;
-  margin: 0.5vw 0vw;
   justify-content: space-evenly; }
 
+.contQuiz {
+  height: 30vw; }
+
 .contOpciones {
-  height: 25%;
+  height: 50%;
   width: 75%; }
 
 #contOpciones {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; }
+
+#btnEnviarRespuesta {
+  width: 75%;
+  align-self: center; }
+
+#contRadios {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  justify-items: center; }
+  justify-items: center;
+  width: 100%; }
 
 .formIngreso {
   height: 100%; }

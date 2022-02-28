@@ -21,12 +21,14 @@ let preguntaActiva;
 function generarIntegerAleatorio(max) { //Esta función genera un número aleatorio entre 0 y max
     return Math.floor(Math.random() * max);
 }
-let ordenPreguntas = generarIntegerAleatorio(15);
+let ordenPreguntas;
 
-function limpiarOpciones(){ // Esta función limpiarOpciones limpia el label y los botones, la uso para cambiar de pregunta/opciones
-intentosFallidos = 0;
+function ocultarPreguntaActual(){ // Esta función ocultarPreguntaActual limpia el label y los botones, la uso para cambiar de pregunta/opciones
+console.log("Se oculta la pregunta actual");
 
-    $("#lblPregunta").html("");
+$("input").prop('checked', false);
+
+$("#lblPregunta").html("");
     $("#lblRespuestaA").html("");
     $("#lblRespuestaA").attr("class", "");
     $("#lblRespuestaB").html("");
@@ -35,6 +37,8 @@ intentosFallidos = 0;
     $("#lblRespuestaC").attr("class", "");
     $("#lblRespuestaD").html("");
     $("#lblRespuestaD").attr("class", "");
+    $("#btnEnviarRespuesta").attr("class", "btn btn-dark")
+    $("#btnEnviarRespuesta").html("Enviar Respuesta")
 
     switch (ordenPreguntas) { //Este switch define un orden de respuestas de acuerdo a un valor aleatorio
         case 0:
@@ -88,7 +92,6 @@ intentosFallidos = 0;
     }
 }
 
- //Este es el valor aleatorio que define el orden de las respuestas
 let arrayPreguntas; //Acá se guardan todas las preguntas una vez se consiguieron del json
 var URLJSON = "../json/preguntas.json"; //Ruta al .json que contiene las preguntas
 
@@ -98,15 +101,57 @@ $.ajax({
     success: (respuesta) => {
         console.log("Éxito al llamar al JSON de preguntas: " + JSON.stringify(respuesta));
         arrayPreguntas = respuesta;
-        mostrarOpciones(0); //Comienza primer nivel
+        mostrarPregunta(turnosTranscurridos);
         },
     error: () => {console.log("Error al llamar al JSON de preguntas.")}
     });
 
-function mostrarOpciones(nroPregunta){
+function controlarRespuestaActual(){
+    if($("#radioCorrecto").is(':checked')){
+        console.log("Se ha respondido correctamente la pregunta")
+        puntajeActual++; turnosTranscurridos++;
+        $("#btnEnviarRespuesta").attr("class", "btn btn-success");
+        $("#btnEnviarRespuesta").html("Correcto!")
+    } else {
+        console.log("Se ha respondido incorrectamente la pregunta")
+        if (intentosFallidos == 0){
+        intentosFallidos++;
+        $("#contOpciones").append(`<span>Incorrecto! Intente una vez más.</span>`);
+        } else {
+        turnosTranscurridos++;
+        $("#btnEnviarRespuesta").attr("class", "btn btn-danger");
+        $("#btnEnviarRespuesta").html("Incorrecto...");
+        intentosFallidos = 0;
+        $("#contOpciones span").remove();
+        }
+    }
+}
+
+$("#btnEnviarRespuesta").click((evento) => {
+
+    controlarRespuestaActual();
+    ocultarPreguntaActual();
+    
+    if (turnosTranscurridos == 5){
+        if(puntajeActual > 0){
+            $("#titulo").html("Felicitaciones!")
+            $("#lblPregunta").html("Ganaste "+puntajeActual+" puntos!")
+            $("#contPregunta").append(`<label>Ingresá tu contraseña para registrar tu puntaje:</label>
+                                        <input type="password" id="ingresoContrasena" placeholder="Contraseña"></input>
+                                        <button class="btn btn-dark" id="enviarContrasena">Enviar</button>`)
+        } else {
+            $("#titulo").html("Suerte la próxima!")
+        }
+    } else {
+        mostrarPregunta(turnosTranscurridos);
+    }
+});
+
+function mostrarPregunta(nroPregunta){
+console.log("Se muestra la pregunta " + nroPregunta);
 preguntaActiva = arrayPreguntas[nroPregunta];
 $("#lblPregunta").html(JSON.stringify(preguntaActiva.pregunta));
-
+ordenPreguntas = generarIntegerAleatorio(15);
 switch (ordenPreguntas) {
     case 0:
         console.log("Orden de Preguntas caso: " + ordenPreguntas);
@@ -237,12 +282,7 @@ switch (ordenPreguntas) {
         $("#lblRespuestaD").html(JSON.stringify(preguntaActiva.respuestasIncorrectas[1]));
         break;
 }
-}
 
-function correrNivel(nroDePregunta){
-    limpiarOpciones();
-    pasaNivel = false;
-    mostrarOpciones(nroDePregunta);
 }
 
 
