@@ -59,7 +59,7 @@ function btnBuscaContrasena() {
     console.log("Se busca al usuario de la contraseña " + usuarioBuscado);
     
     let buscarArray = JSON.parse(localStorage.getItem('arrayUsuarios'));
-    let duplicarUsuario = buscar-Array.find(usuario => usuario.contrasena == usuarioBuscado);
+    let duplicarUsuario = buscarArray.find(usuario => usuario.contrasena == usuarioBuscado);
 
     delete duplicarUsuario.contrasena; //Se elimina el dato "contraseña", ya que sería redundante.
 
