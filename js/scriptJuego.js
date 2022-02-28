@@ -136,7 +136,12 @@ $("#btnEnviarRespuesta").click((evento) => {
         if(puntajeActual > 0){
             $("#titulo").html("Felicitaciones!")
             $("#lblPregunta").html("Ganaste "+puntajeActual+" puntos!")
-            $("#contPregunta").append(`<label>Ingresá tu contraseña para registrar tu puntaje:</label>
+            $("#contPregunta").append(`<div class="form-group" id="formGroupNombre">
+                                            <label>Ingresá tu contraseña para registrar tu puntaje:</label>
+                                            <input type="password" class="form-control" id="enviarContrasena" placeholder="Contraseña">
+                                        </div>
+            
+            
                                         <input type="password" id="ingresoContrasena" placeholder="Contraseña"></input>
                                         <button class="btn btn-dark" id="enviarContrasena">Enviar</button>`)
         } else {
