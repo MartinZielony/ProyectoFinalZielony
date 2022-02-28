@@ -1,17 +1,19 @@
 $(document).ready(function () {
     console.log("El DOM esta listo");
+    $("#formGroupBusqueda").hide();
 });
 
 let arrayUsuarios = [];
 let cantUsuarios = 0;
 var visitaPrimeraVez = localStorage.getItem("first_time");
-    if(visitaPrimeraVez){
-        console.log("Primera visita");
-        localStorage.setItem("arrayUsuarios", JSON.stringify([]));
-    } else {
-        arrayUsuarios = JSON.parse(localStorage.getItem("arrayUsuarios"));
-        cantUsuarios = arrayUsuarios.length;
-    }
+
+if (visitaPrimeraVez) {
+    console.log("Primera visita");
+    localStorage.setItem("arrayUsuarios", JSON.stringify([]));
+} else {
+    arrayUsuarios = JSON.parse(localStorage.getItem("arrayUsuarios"));
+    cantUsuarios = arrayUsuarios.length;
+}
 
 console.log("Página Iniciada");
 
@@ -36,7 +38,7 @@ class Persona {
         this.apellido = apellido.toUpperCase();
         this.edad = edad;
         this.contrasena = contrasena;
-        this.puntajeMAX = puntajeMAX;
+        this.puntajeMAX = 0;
     }
 
     nombreCompleto() {
@@ -53,15 +55,13 @@ function dividir(dato1, dato2, resultado) {
 
 function btnBuscaContrasena() {
     console.log("busqueda por contraseña");
-    
+
     let usuarioBuscado = $("#ingresoBusqueda").val();
 
     console.log("Se busca al usuario de la contraseña " + usuarioBuscado);
-    
+
     let buscarArray = JSON.parse(localStorage.getItem('arrayUsuarios'));
     let duplicarUsuario = buscarArray.find(usuario => usuario.contrasena == usuarioBuscado);
-
-    delete duplicarUsuario.contrasena; //Se elimina el dato "contraseña", ya que sería redundante.
 
     console.log(duplicarUsuario);
     console.log("Creado el nuevo objeto que se usará para mostrar la información del usuario.");
@@ -74,19 +74,20 @@ function btnBuscaContrasena() {
                         </div>`)
 
     $("#ingresoBusqueda").val("");
-    $("#formGroupBusqueda").remove();
-    $("#btnVerUsuario").html("Ver Otro Usuario") ; //Aplico el cambio
+    $("#formGroupBusqueda").hide();
+    $("#btnVerUsuario").html("Ver Otro Usuario"); //Aplico el cambio
 };
 
 $("#btnVerUsuario").click(function () {
-    $("#formIngresoUsuario").append(
-`<div class="form-group" id="formGroupBusqueda">
-    <label>Ingrese la contraseña del usuario cuya información desee ver: </label>
-    <input type="password" class="form-control" id="ingresoBusqueda" placeholder="Contraseña">
-    <button id="buscarPorContrasena" type="button" class="btn btn-dark">Buscar</button>
-</div>`);
+    $("#formGroupBusqueda").show();
 
-                            $("#buscarPorContrasena").click(btnBuscaContrasena);
+    $("#buscarPorContrasena").click(btnBuscaContrasena);
+    $("#ingresoBusqueda").keyup((e) => {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            $("#buscarPorContrasena").click();
+        }
+    });
 });
 
 
@@ -103,30 +104,30 @@ function cargarUsuario(evento) {
     let arrayVerificar = [nombreIngresado, apellidoIngresado, edadIngresada, contrasenaIngresada];
     let cantItemsIncompletos = 0;
     for (let index = 0; index < arrayVerificar.length; index++) {
-        if((arrayVerificar[index]) == "" || (arrayVerificar[index] == " ") ){
+        if ((arrayVerificar[index]) == "" || (arrayVerificar[index] == " ")) {
             cantItemsIncompletos++;
         }
     }
-    if(cantItemsIncompletos > 0){
+    if (cantItemsIncompletos > 0) {
         evento.preventDefault();
-        $("#formIngresoUsuario").append(`<label id="lblErrorForm">`+cantItemsIncompletos+` items en el formulario están incompletos.</label>`)
+        $("#formIngresoUsuario").append(`<label id="lblErrorForm">` + cantItemsIncompletos + ` items en el formulario están incompletos.</label>`)
     } else {
         $("#lblErrorForm").remove();
 
         arrayUsuarios.push( //pusheo un nuevo objeto "Persona" para ser agregado a arrayUsuarios
-    new Persona(
-        cantUsuarios, //defino al idUsuario (primer dato de la clase) utilizando la cantidad de usuarios, si este es el primero su id será 1.
-        nombreIngresado,
-        apellidoIngresado,
-        edadIngresada,
-        contrasenaIngresada,
-        0 //Puntaje máximo en 0
-    )
-)
-console.log("Usuario Agregado: " + JSON.stringify(arrayUsuarios[cantUsuarios]));
-localStorage.setItem("arrayUsuarios", JSON.stringify(arrayUsuarios));
-$('#formIngresoUsuario').trigger("reset");
-}
+            new Persona(
+                cantUsuarios, //defino al idUsuario (primer dato de la clase) utilizando la cantidad de usuarios, si este es el primero su id será 1.
+                nombreIngresado,
+                apellidoIngresado,
+                edadIngresada,
+                contrasenaIngresada,
+                0 //Puntaje máximo en 0
+            )
+        )
+        console.log("Usuario Agregado: " + JSON.stringify(arrayUsuarios[cantUsuarios]));
+        localStorage.setItem("arrayUsuarios", JSON.stringify(arrayUsuarios));
+        $('#formIngresoUsuario').trigger("reset");
+    }
 
 }
 
@@ -158,6 +159,8 @@ $("#inputContrasenaUsuario").keyup((e) => {
         $("#btnAgregarUsuario").click();
     }
 });
+
+
 // FIN DE EVENT LISTENERS PARA ENVIAR EL FORMULARIO CON TECLA ENTER
 
 $("#btnAgregarUsuario").click(cargarUsuario);

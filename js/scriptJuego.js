@@ -25,12 +25,12 @@ function generarIntegerAleatorio(max) { //Esta función genera un número aleato
 }
 let ordenPreguntas;
 
-function ocultarPreguntaActual(){ // Esta función ocultarPreguntaActual limpia el label y los botones, la uso para cambiar de pregunta/opciones
-console.log("Se oculta la pregunta actual");
+function ocultarPreguntaActual() { // Esta función ocultarPreguntaActual limpia el label y los botones, la uso para cambiar de pregunta/opciones
+    console.log("Se oculta la pregunta actual");
 
-$("input").prop('checked', false);
+    $("input").prop('checked', false);
 
-$("#lblPregunta").html("");
+    $("#lblPregunta").html("");
     $("#lblRespuestaA").html("");
     $("#lblRespuestaA").attr("class", "");
     $("#lblRespuestaB").html("");
@@ -104,27 +104,27 @@ $.ajax({
         console.log("Éxito al llamar al JSON de preguntas: " + JSON.stringify(respuesta));
         arrayPreguntas = respuesta;
         mostrarPregunta(turnosTranscurridos);
-        },
-    error: () => {console.log("Error al llamar al JSON de preguntas.")}
-    });
+    },
+    error: () => { console.log("Error al llamar al JSON de preguntas.") }
+});
 
-function controlarRespuestaActual(){
-    if($("#radioCorrecto").is(':checked')){
+function controlarRespuestaActual() {
+    if ($("#radioCorrecto").is(':checked')) {
         console.log("Se ha respondido correctamente la pregunta")
         puntajeActual++; turnosTranscurridos++;
         $("#btnEnviarRespuesta").attr("class", "btn btn-success");
         $("#btnEnviarRespuesta").html("Correcto!")
     } else {
         console.log("Se ha respondido incorrectamente la pregunta")
-        if (intentosFallidos == 0){
-        intentosFallidos++;
-        $("#contOpciones").append(`<span>Incorrecto! Intente una vez más.</span>`);
+        if (intentosFallidos == 0) {
+            intentosFallidos++;
+            $("#contOpciones").append(`<span>Incorrecto! Intente una vez más.</span>`);
         } else {
-        turnosTranscurridos++;
-        $("#btnEnviarRespuesta").attr("class", "btn btn-danger");
-        $("#btnEnviarRespuesta").html("Incorrecto...");
-        intentosFallidos = 0;
-        $("#contOpciones span").remove();
+            turnosTranscurridos++;
+            $("#btnEnviarRespuesta").attr("class", "btn btn-danger");
+            $("#btnEnviarRespuesta").html("Incorrecto...");
+            intentosFallidos = 0;
+            $("#contOpciones span").remove();
         }
     }
 }
@@ -133,11 +133,11 @@ $("#btnEnviarRespuesta").click((evento) => {
 
     controlarRespuestaActual();
     ocultarPreguntaActual();
-    
-    if (turnosTranscurridos == 5){
-        if(puntajeActual > 0){
+
+    if (turnosTranscurridos == 5) {
+        if (puntajeActual > 0) {
             $("#titulo").html("Felicitaciones!")
-            $("#lblPregunta").html("Ganaste "+puntajeActual+" puntos!")
+            $("#lblPregunta").html("Ganaste " + puntajeActual + " puntos!")
             $("#contOpciones").remove();
             $("#formGroupPuntaje").show();
         } else {
@@ -152,167 +152,167 @@ let contrasenaJugador;
 let usuarioJugador;
 let idJugador;
 
-$("#enviarContrasena").click(()=>{
+$("#enviarContrasena").click(() => {
     console.log("Comienza Proceso Puntaje Maximo.");
     contrasenaJugador = $("#ingresoContrasena").val();
     usuarioJugador = arrayUsuarios.find(usuario => usuario.contrasena == contrasenaJugador);
     idJugador = usuarioJugador.idUsuario;
 
-    if(usuarioJugador.puntajeMAX < puntajeActual){
+    if (usuarioJugador.puntajeMAX < puntajeActual) {
         usuarioJugador.puntajeMAX = puntajeActual;
         arrayUsuarios[idJugador] = usuarioJugador;
         localStorage.setItem("arrayUsuarios", JSON.stringify(arrayUsuarios));
-    }   
-        $("#contPregunta").remove();
-        $("#formGroupPuntaje").remove();
-        $("#botonesFinal").show();
+    }
+    $("#contPregunta").remove();
+    $("#formGroupPuntaje").remove();
+    $("#botonesFinal").show();
 });
 
 $("#btnVolver").click(volverPagPrincipal);
 $("#btnResetear").click(reiniciar);
 
-function volverPagPrincipal(){
+function volverPagPrincipal() {
     window.location.href = "../index.html"
 }
 
-function reiniciar(){
+function reiniciar() {
     document.location.reload();
 }
 
-function mostrarPregunta(nroPregunta){
-console.log("Se muestra la pregunta " + nroPregunta);
-preguntaActiva = arrayPreguntas[nroPregunta];
-$("#lblPregunta").html(preguntaActiva.pregunta);
-ordenPreguntas = generarIntegerAleatorio(15);
-switch (ordenPreguntas) {
-    case 0:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[0]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaC").attr("id", "radioCorrecto");
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[2]);
-        break;
-    case 1:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[0]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaD").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaD").attr("id", "radioCorrecto");
-        break;
-    case 2:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaC").attr("id", "radioCorrecto");
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
-        break;
-    case 3:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaC").attr("id", "radioCorrecto");
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
-        break;
-    case 4:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[0]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaC").attr("id", "radioCorrecto");
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[1]);
-        break;
-    case 5:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaC").attr("id", "radioCorrecto");
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
-        break;
-    case 6:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[0]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaC").attr("id", "radioCorrecto");
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[1]);
-        break;
-    case 7:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaB").attr("id", "radioCorrecto");
-        $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
-        break;
-    case 8:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaB").attr("id", "radioCorrecto");
-        $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
-        break;
-    case 9:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[0]);
-        $("#lblRespuestaD").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaD").attr("id", "radioCorrecto");
-        break;
-    case 10:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[0]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaB").attr("id", "radioCorrecto");
-        $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[2]);
-        break;
-    case 11:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[0]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaB").attr("id", "radioCorrecto");
-        $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[1]);
-        break;
-    case 12:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaA").attr("id", "radioCorrecto");
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
-        break;
-    case 13:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaA").attr("id", "radioCorrecto");
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[0]);
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[2]);
-        break;
-    case 14:
-        console.log("Orden de Preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[1]);
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[0]);
-        $("#lblRespuestaD").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaD").attr("id", "radioCorrecto");
-        break;
-    case 15:
-        console.log("Orden de preguntas caso: " + ordenPreguntas);
-        $("#lblRespuestaA").html(preguntaActiva.respuestaCorrecta);
-        $("#radioRespuestaA").attr("id", "radioCorrecto");
-        $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[0]);
-        $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[2]);
-        $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[1]);
-        break;
-}
+function mostrarPregunta(nroPregunta) {
+    console.log("Se muestra la pregunta " + nroPregunta);
+    preguntaActiva = arrayPreguntas[nroPregunta];
+    $("#lblPregunta").html(preguntaActiva.pregunta);
+    ordenPreguntas = generarIntegerAleatorio(15);
+    switch (ordenPreguntas) {
+        case 0:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[0]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaC").attr("id", "radioCorrecto");
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[2]);
+            break;
+        case 1:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[0]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaD").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaD").attr("id", "radioCorrecto");
+            break;
+        case 2:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaC").attr("id", "radioCorrecto");
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
+            break;
+        case 3:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaC").attr("id", "radioCorrecto");
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
+            break;
+        case 4:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[0]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaC").attr("id", "radioCorrecto");
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[1]);
+            break;
+        case 5:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaC").attr("id", "radioCorrecto");
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
+            break;
+        case 6:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[0]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaC").attr("id", "radioCorrecto");
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[1]);
+            break;
+        case 7:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaB").attr("id", "radioCorrecto");
+            $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
+            break;
+        case 8:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaB").attr("id", "radioCorrecto");
+            $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
+            break;
+        case 9:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[0]);
+            $("#lblRespuestaD").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaD").attr("id", "radioCorrecto");
+            break;
+        case 10:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[0]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaB").attr("id", "radioCorrecto");
+            $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[2]);
+            break;
+        case 11:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[0]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaB").attr("id", "radioCorrecto");
+            $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[1]);
+            break;
+        case 12:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaA").attr("id", "radioCorrecto");
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[0]);
+            break;
+        case 13:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaA").attr("id", "radioCorrecto");
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[0]);
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[2]);
+            break;
+        case 14:
+            console.log("Orden de Preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestasIncorrectas[1]);
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[0]);
+            $("#lblRespuestaD").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaD").attr("id", "radioCorrecto");
+            break;
+        case 15:
+            console.log("Orden de preguntas caso: " + ordenPreguntas);
+            $("#lblRespuestaA").html(preguntaActiva.respuestaCorrecta);
+            $("#radioRespuestaA").attr("id", "radioCorrecto");
+            $("#lblRespuestaB").html(preguntaActiva.respuestasIncorrectas[0]);
+            $("#lblRespuestaC").html(preguntaActiva.respuestasIncorrectas[2]);
+            $("#lblRespuestaD").html(preguntaActiva.respuestasIncorrectas[1]);
+            break;
+    }
 
 }
