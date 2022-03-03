@@ -4,15 +4,13 @@ $(document).ready(function () {
 });
 
 let arrayUsuarios = [];
-let cantUsuarios = 0;
-var visitaPrimeraVez = localStorage.getItem("first_time");
+let visitaPrimeraVez = JSON.parse(localStorage.getItem("arrayUsuarios"));
 
-if (visitaPrimeraVez) {
+if (visitaPrimeraVez==null) {
     console.log("Primera visita");
-    localStorage.setItem("arrayUsuarios", JSON.stringify([]));
+    localStorage.setItem("arrayUsuarios", JSON.stringify([]))
 } else {
     arrayUsuarios = JSON.parse(localStorage.getItem("arrayUsuarios"));
-    cantUsuarios = arrayUsuarios.length;
 }
 
 console.log("Página Iniciada");
@@ -48,11 +46,6 @@ class Persona {
 
 //FUNCIONES
 
-function dividir(dato1, dato2, resultado) {
-    resultado = dato1 / dato2;
-    return resultado;
-}
-
 function btnBuscaContrasena() {
     console.log("busqueda por contraseña");
 
@@ -67,11 +60,11 @@ function btnBuscaContrasena() {
     console.log("Creado el nuevo objeto que se usará para mostrar la información del usuario.");
 
     $("#contMain").append(`<br>
-                        <div>
-                            <h4>Id: ${duplicarUsuario.idUsuario}, Nombre: ${duplicarUsuario.nombre} ${duplicarUsuario.apellido}</h4>
-                            <span>Edad: ${duplicarUsuario.edad} años</span>
-                            <b>Puntaje Máximo: ${duplicarUsuario.puntajeMAX}</b>
-                        </div>`)
+                            <div>
+                                <h4>Id: ${duplicarUsuario.idUsuario}, Nombre: ${duplicarUsuario.nombre} ${duplicarUsuario.apellido}</h4>
+                                <span>Edad: ${duplicarUsuario.edad} años</span>
+                                <b>Puntaje Máximo: ${duplicarUsuario.puntajeMAX}</b>
+                            </div>`)
 
     $("#ingresoBusqueda").val("");
     $("#formGroupBusqueda").hide();
@@ -94,8 +87,7 @@ $("#btnVerUsuario").click(function () {
 
 
 
-function cargarUsuario(evento) {
-    console.log("cargar usuario")
+function cargarUsuario(evento) {    
     nombreIngresado = $("#inputNombreUsuario").val();
     apellidoIngresado = $("#inputApellidoUsuario").val();
     edadIngresada = $("#inputEdadUsuario").val();
@@ -103,20 +95,34 @@ function cargarUsuario(evento) {
 
     let arrayVerificar = [nombreIngresado, apellidoIngresado, edadIngresada, contrasenaIngresada];
     let cantItemsIncompletos = 0;
+    let contrasenaYaExiste = false;
     for (let index = 0; index < arrayVerificar.length; index++) {
         if ((arrayVerificar[index]) == "" || (arrayVerificar[index] == " ")) {
             cantItemsIncompletos++;
         }
     }
+
+    for (let index = 0; index < arrayUsuarios.length; index++) {
+        if(contrasenaIngresada == arrayUsuarios[index].contrasena){
+            evento.preventDefault();
+            contrasenaYaExiste = true;
+        }
+    }
+
     if (cantItemsIncompletos > 0) {
         evento.preventDefault();
-        $("#formIngresoUsuario").append(`<label id="lblErrorForm">` + cantItemsIncompletos + ` items en el formulario están incompletos.</label>`)
-    } else {
+        $("#formIngresoUsuario").append(`<label id="lblErrorForm">` + cantItemsIncompletos + ` items en el formulario están incompletos.</label>`);
+    } else if(contrasenaYaExiste == true){
+        evento.preventDefault();
+        console.log("Ya existe un usuario con la contraseña " + contrasenaIngresada);
+        $("#formIngresoUsuario").append(`<label id="lblErrorForm">Esa contraseña ya está en uso.</label>`);  
+        $("#inputContrasenaUsuario").val("");
+    } else{
         $("#lblErrorForm").remove();
 
         arrayUsuarios.push( //pusheo un nuevo objeto "Persona" para ser agregado a arrayUsuarios
             new Persona(
-                cantUsuarios, //defino al idUsuario (primer dato de la clase) utilizando la cantidad de usuarios, si este es el primero su id será 1.
+                arrayUsuarios.length, //defino al idUsuario (primer dato de la clase) utilizando la longitud del array. Si no tiene elementos, este va a ser el elemento 0. Si quisiera que arranque en 1, escribo (arrayUsuarios.length+1).
                 nombreIngresado,
                 apellidoIngresado,
                 edadIngresada,
@@ -124,7 +130,6 @@ function cargarUsuario(evento) {
                 0 //Puntaje máximo en 0
             )
         )
-        console.log("Usuario Agregado: " + JSON.stringify(arrayUsuarios[cantUsuarios]));
         localStorage.setItem("arrayUsuarios", JSON.stringify(arrayUsuarios));
         $('#formIngresoUsuario').trigger("reset");
     }
