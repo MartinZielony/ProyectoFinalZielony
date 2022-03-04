@@ -26,13 +26,8 @@
     <main id="contMain">
         <form id="formIngresoUsuario">
             <div class="form-group" id="formGroupNombre">
-                <label>Nombre</label>
+                <label>Nombre de Usuario</label>
                 <input type="text" class="form-control" id="inputNombreUsuario" placeholder="Ingrese su Nombre">
-            </div>
-
-            <div class="form-group" id="formGroupApellido">
-                <label>Apellido</label>
-                <input type="text" class="form-control" id="inputApellidoUsuario" placeholder="Ingrese su Apellido">
             </div>
 
             <div class="form-group" id="formGroupEdad">
@@ -51,8 +46,10 @@
             <div class="form-group" id="formGroupBusqueda">
                 <label>Ingrese la contraseña del usuario cuya información desee ver: </label>
                 <input type="password" class="form-control" id="ingresoBusqueda" placeholder="Contraseña">
-                <button id="buscarPorContrasena" type="button" class="btn btn-dark">Buscar</button>
+                <button id="buscarPorUsuario" type="button" class="btn btn-dark">Buscar</button>
             </div>
+            <label id="lblErrorForm"> Hay items incompletos en el formulario.</label>
+            <label id="lblErrorUsuario">Ese nombre de usuario ya está en uso.</label>
         </form>
     </main>
 

@@ -54,14 +54,17 @@
         </form>
 
         <div class="form-group" id="formGroupPuntaje">
-            <label>Ingresá tu contraseña para registrar tu puntaje:</label>
-            <input type="password" class="form-control" id="ingresoContrasena" placeholder="Contraseña">
-            <button class="btn btn-dark" id="enviarContrasena">Enviar</button>
+            <label>Ingresá tu nombre de Usuario para registrar tu puntaje:</label>
+            <input type="text" class="form-control" id="ingresoNombreUsuario" placeholder="Nombre de Usuario">
+            <button class="btn btn-dark" id="enviarNombreUsuario">Enviar</button>
+            <br> <span id="lblNoIngreso">Debe ingresar un nombre de usuario.</span>
+            <br> <span id="lblUsuarioNoExiste">Debe ingresar un nombre de usuario existente en nuestro almacenamiento.</span>
         </div>
 
         <div id="botonesFinal">
             <button class="btn btn-primary" id="btnVolver">Volver a la página Principal</button>
             <button class="btn btn-success" id="btnResetear">Jugar de Nuevo</button>
+
         </div>
     </article>
 

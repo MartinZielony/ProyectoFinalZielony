@@ -2,6 +2,8 @@ $(document).ready(function () {
     console.log("El DOM esta listo");
     $("#formGroupPuntaje").hide();
     $("#botonesFinal").hide();
+    $("#lblNoIngreso").hide();
+    $("#lblUsuarioNoExiste").hide();
 });
 
 let arrayUsuarios = JSON.parse(localStorage.getItem("arrayUsuarios"));
@@ -114,6 +116,7 @@ function controlarRespuestaActual() {
         puntajeActual++; turnosTranscurridos++;
         $("#btnEnviarRespuesta").attr("class", "btn btn-success");
         $("#btnEnviarRespuesta").html("Correcto!")
+        $("#contOpciones span").remove();
     } else {
         console.log("Se ha respondido incorrectamente la pregunta")
         if (intentosFallidos == 0) {
@@ -121,8 +124,6 @@ function controlarRespuestaActual() {
             $("#contOpciones").append(`<span>Incorrecto! Intente una vez más.</span>`);
         } else {
             turnosTranscurridos++;
-            $("#btnEnviarRespuesta").attr("class", "btn btn-danger");
-            $("#btnEnviarRespuesta").html("Incorrecto...");
             intentosFallidos = 0;
             $("#contOpciones span").remove();
         }
@@ -148,24 +149,34 @@ $("#btnEnviarRespuesta").click((evento) => {
     }
 });
 
-let contrasenaJugador;
+let nombreUsuarioJugador;
 let usuarioJugador;
-let idJugador;
 
-$("#enviarContrasena").click(() => {
+$("#enviarNombreUsuario").click((evento) => {
     console.log("Comienza Proceso Puntaje Maximo.");
-    contrasenaJugador = $("#ingresoContrasena").val();
-    usuarioJugador = arrayUsuarios.find(usuario => usuario.contrasena == contrasenaJugador);
-    idJugador = usuarioJugador.idUsuario;
-
-    if (usuarioJugador.puntajeMAX < puntajeActual) {
+    nombreUsuarioJugador = $("#ingresoNombreUsuario").val().toUpperCase();
+    usuarioJugador = arrayUsuarios.find(usuario => usuario.nombreUsuario == nombreUsuarioJugador);
+    
+    if(($("#ingresoNombreUsuario").val() == "") || ($("#ingresoNombreUsuario").val() == " ")){
+        console.log("No se ingresó un nombre de usuario");
+        evento.preventDefault();
+        $("#lblNoIngreso").show();
+    } else if(usuarioJugador == undefined){
+        console.log("El nombre de usuario no corresponde a un usuario registrado");
+        evento.preventDefault();
+        $("#lblUsuarioNoExiste").show();
+        $("#ingresoNombreUsuario").val("");
+    } else if (usuarioJugador.puntajeMAX < puntajeActual) {
+        console.log("Nuevo Puntaje Máximo")
+        idJugador = usuarioJugador.idUsuario;
         usuarioJugador.puntajeMAX = puntajeActual;
         arrayUsuarios[idJugador] = usuarioJugador;
         localStorage.setItem("arrayUsuarios", JSON.stringify(arrayUsuarios));
+        $("#contPregunta").remove();
+        $("#formGroupPuntaje").remove();
+        $("#botonesFinal").show();
     }
-    $("#contPregunta").remove();
-    $("#formGroupPuntaje").remove();
-    $("#botonesFinal").show();
+    
 });
 
 $("#btnVolver").click(volverPagPrincipal);

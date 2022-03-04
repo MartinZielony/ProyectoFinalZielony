@@ -1,6 +1,8 @@
 $(document).ready(function () {
     console.log("El DOM esta listo");
     $("#formGroupBusqueda").hide();
+    $("#lblErrorForm").hide();
+    $("#lblErrorUsuario").hide();
 });
 
 let arrayUsuarios = [];
@@ -30,38 +32,33 @@ $("footer").fadeIn("slow", function () {//Aparecen con FadeIn todos los elemento
 
 //CLASES
 class Persona {
-    constructor(idUsuario, nombre, apellido, edad, contrasena, puntajeMAX) {
+    constructor(idUsuario, nombreUsuario, edad, contrasena, puntajeMAX) {
         this.idUsuario = idUsuario;
-        this.nombre = nombre.toUpperCase();
-        this.apellido = apellido.toUpperCase();
+        this.nombreUsuario = nombreUsuario.toUpperCase();
         this.edad = edad;
         this.contrasena = contrasena;
         this.puntajeMAX = 0;
-    }
-
-    nombreCompleto() {
-        this.nombre = this.nombre + " " + this.apellido;
     }
 }
 
 //FUNCIONES
 
-function btnBuscaContrasena() {
-    console.log("busqueda por contraseña");
+function btnBuscaUsuario() {
+    console.log("busqueda por Nombre de Usuario");
 
     let usuarioBuscado = $("#ingresoBusqueda").val();
 
-    console.log("Se busca al usuario de la contraseña " + usuarioBuscado);
+    console.log("Se busca al usuario de nombre " + usuarioBuscado);
 
     let buscarArray = JSON.parse(localStorage.getItem('arrayUsuarios'));
-    let duplicarUsuario = buscarArray.find(usuario => usuario.contrasena == usuarioBuscado);
+    let duplicarUsuario = buscarArray.find(usuario => usuario.nombreUsuario == usuarioBuscado);
 
     console.log(duplicarUsuario);
     console.log("Creado el nuevo objeto que se usará para mostrar la información del usuario.");
 
     $("#contMain").append(`<br>
                             <div>
-                                <h4>Id: ${duplicarUsuario.idUsuario}, Nombre: ${duplicarUsuario.nombre} ${duplicarUsuario.apellido}</h4>
+                                <h4>Id: ${duplicarUsuario.idUsuario}, Nombre de Usuario: ${duplicarUsuario.nombreUsuario}</h4>
                                 <span>Edad: ${duplicarUsuario.edad} años</span>
                                 <b>Puntaje Máximo: ${duplicarUsuario.puntajeMAX}</b>
                             </div>`)
@@ -74,28 +71,23 @@ function btnBuscaContrasena() {
 $("#btnVerUsuario").click(function () {
     $("#formGroupBusqueda").show();
 
-    $("#buscarPorContrasena").click(btnBuscaContrasena);
+    $("#buscarPorUsuario").click(btnBuscaUsuario);
     $("#ingresoBusqueda").keyup((e) => {
         if (e.keyCode === 13) {
             e.preventDefault();
-            $("#buscarPorContrasena").click();
+            $("#buscarPorUsuario").click();
         }
     });
 });
 
-
-
-
-
 function cargarUsuario(evento) {    
     nombreIngresado = $("#inputNombreUsuario").val();
-    apellidoIngresado = $("#inputApellidoUsuario").val();
     edadIngresada = $("#inputEdadUsuario").val();
     contrasenaIngresada = $("#inputContrasenaUsuario").val();
 
-    let arrayVerificar = [nombreIngresado, apellidoIngresado, edadIngresada, contrasenaIngresada];
+    let arrayVerificar = [nombreIngresado, edadIngresada, contrasenaIngresada];
     let cantItemsIncompletos = 0;
-    let contrasenaYaExiste = false;
+    let UsuarioYaExiste = false;
     for (let index = 0; index < arrayVerificar.length; index++) {
         if ((arrayVerificar[index]) == "" || (arrayVerificar[index] == " ")) {
             cantItemsIncompletos++;
@@ -103,28 +95,27 @@ function cargarUsuario(evento) {
     }
 
     for (let index = 0; index < arrayUsuarios.length; index++) {
-        if(contrasenaIngresada == arrayUsuarios[index].contrasena){
+        if(nombreIngresado.toUpperCase() == arrayUsuarios[index].nombreUsuario){
             evento.preventDefault();
-            contrasenaYaExiste = true;
+            UsuarioYaExiste = true;
         }
     }
 
     if (cantItemsIncompletos > 0) {
         evento.preventDefault();
-        $("#formIngresoUsuario").append(`<label id="lblErrorForm">` + cantItemsIncompletos + ` items en el formulario están incompletos.</label>`);
-    } else if(contrasenaYaExiste == true){
+        $("#lblErrorForm").show();
+        $("#lblErrorForm").delay(1500).fadeOut("slow");
+    } else if(UsuarioYaExiste == true){
         evento.preventDefault();
-        console.log("Ya existe un usuario con la contraseña " + contrasenaIngresada);
-        $("#formIngresoUsuario").append(`<label id="lblErrorForm">Esa contraseña ya está en uso.</label>`);  
-        $("#inputContrasenaUsuario").val("");
+        console.log("Ya existe un usuario con el nombre " + nombreIngresado);
+        $("#lblErrorUsuario").show();
+        $("#lblErrorUsuario").delay(1500).fadeOut("slow");
+        $("#inputNombreUsuario").val("");
     } else{
-        $("#lblErrorForm").remove();
-
         arrayUsuarios.push( //pusheo un nuevo objeto "Persona" para ser agregado a arrayUsuarios
             new Persona(
                 arrayUsuarios.length, //defino al idUsuario (primer dato de la clase) utilizando la longitud del array. Si no tiene elementos, este va a ser el elemento 0. Si quisiera que arranque en 1, escribo (arrayUsuarios.length+1).
                 nombreIngresado,
-                apellidoIngresado,
                 edadIngresada,
                 contrasenaIngresada,
                 0 //Puntaje máximo en 0
@@ -138,13 +129,6 @@ function cargarUsuario(evento) {
 
 // EVENT LISTENERS PARA ENVIAR EL FORMULARIO CON TECLA ENTER
 $("#inputNombreUsuario").keyup((e) => {
-    if (e.keyCode === 13) {
-        e.preventDefault();
-        $("#btnAgregarUsuario").click();
-    }
-});
-
-$("#inputApellidoUsuario").keyup((e) => {
     if (e.keyCode === 13) {
         e.preventDefault();
         $("#btnAgregarUsuario").click();
